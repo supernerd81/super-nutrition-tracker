@@ -23,19 +23,18 @@ html {
 
 body {
   background-image: url("../../images/main-background.png");
-  background-size: 100% auto;
+  box-shadow: 10px 10px 20px var(--background-color2);
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-color: var(--background-color1);
 }
 
-.main-container {
+.container {
   width:100%;
-  height:2000px;
   border-radius: var(--borderradius);
   background-color: var(--background-color4);
   color: var(--fontcolor2);
-  box-shadow: 10px 10px 20px var(--background-color2);
 }
 
 .headline-container {
@@ -57,7 +56,7 @@ body {
 .header-container {
   margin-top: 10px;
   background-color: var(--background-color2);
-  height: 300px;
+  height: 400px;
   padding-top:30px;
 }
 
@@ -106,3 +105,16 @@ body {
   height: 400px;
 
 }
+
+.footer-container {
+
+}
+
+.footer-left {
+  background-image: url("images/vegetablebowl.png");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: bottom;
+  height: 560px;
+}
+

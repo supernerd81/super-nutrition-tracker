@@ -11,8 +11,7 @@ function App() {
 
 
   return (
-      <div className={"main-container"}>
-          <div className={"headline-container container"}>
+      <div className={"container"}>
 
               <div className={"row"}>
                   <div className={"col-md-12 col-lg-6"}>
@@ -45,21 +44,25 @@ function App() {
                   </div>
                   <div className={"col-md-12 col-lg-6 p-4 mt-3"}>
                       <div className={"col-12 box1"}>
-test
+                            test
                       </div>
                   </div>
 
               </div>
 
-              <div className={"row"}>
+              <div className={"row footer-container align-content-"}>
 
+                <div className={"col-md-12 col-lg-6 footer-left"}>
+                    &nbsp;
+                </div>
+                <div className={"col-md-12 col-lg-6"}>
 
+                </div>
 
               </div>
 
           </div>
 
-      </div>
   )
 }
 
