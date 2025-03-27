@@ -1,11 +1,10 @@
 import './css/App.css'
 import LoginIcon from '@mui/icons-material/Login';
-import {Box, Button, IconButton, LinearProgress, ListItemButton, ListItemText} from "@mui/material";
+import {Box, LinearProgress, ListItemButton, ListItemText} from "@mui/material";
 import {ArcElement, Chart as ChartJS, Legend, RadialLinearScale, Tooltip} from "chart.js";
 import {Gauge, gaugeClasses} from '@mui/x-charts/Gauge';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-
+import NerdButton from "./components/NerdButton.tsx";
+import NerdNavigation from "./components/NerdNavigation.tsx";
 
 const LoginButtonStyle = { color:"#394738", borderColor: "#394738", marginRight: "30px" }
 const ButtonStyleLightFull = { backgroundColor: "#eeede9", color: "#394738", width: "200px" }
@@ -14,53 +13,36 @@ const ButtonStyleOrangeFull = { backgroundColor: "#f68247", color: "#eeede9", wi
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
-    const data = {
-        labels: ["Protein", "Kohlenhydrate", "Fette", "Ballaststoffe", "Vitamine"],
-        datasets: [
-            {
-                label: "Makronährstoffe",
-                data: [30, 50, 20, 10, 40], // Beispielwerte
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.5)",
-                    "rgba(54, 162, 235, 0.5)",
-                    "rgba(255, 206, 86, 0.5)",
-                    "rgba(75, 192, 192, 0.5)",
-                    "rgba(153, 102, 255, 0.5)",
-                ],
-                borderWidth: 1,
-            },
-        ],
-    };
-
-
 function App() {
-
 
   return (<>
       <div className={"container"}>
 
               <div className={"row pt-2"}>
-                  <div className={"col-md-12 col-lg-6"}>
+                  <div className={"col-md-2 col-lg-1"}>
+                      <NerdNavigation />
+                  </div>
+                  <div className={"col-md-10 col-lg-6 align-content-end"}>
+
                       <h1 className={"headline headline-font"}>Super Nutrition Tracker</h1>
                   </div>
-                  <div className={"col-md-12 col-lg-6 text-lg-end align-content-center"}>
-                      <Button variant="outlined" startIcon={<LoginIcon />} color={"info"} style={ LoginButtonStyle }>
-                          Login
-                      </Button>
+                  <div className={"col-md-12 col-lg-5 text-lg-end align-content-center"}>
+                      <NerdButton buttonText={"Login"} styling={LoginButtonStyle } variant={"outlined"} startIcon={<LoginIcon/>} color={"info"} />
                   </div>
               </div>
 
               <div className={"row header-container"}>
                   <div className={"col-md-12 col-lg-6 header-left text-lg-start"}>
                       <h2>Track your Nutrition</h2>
-                      <Button style={ ButtonStyleLightFull } variant={"contained"} className={"mt-3"}>test</Button>
+                      <NerdButton buttonText={"test"} styling={ButtonStyleLightFull} variant={"contained"} cssClasses="mt-3" />
                   </div>
                   <div className={"col-md-12 col-lg-6 header-right text-lg-start"}>
                       <h2>Grundumsatz pro Tag</h2>
 
                       <p className={"font-lg mb-0"}>2564 kcal</p>
                       <p >Alter: 43 &bull; Gewicht: 80 kg &bull; Größe: 183 cm</p>
-                      <Button variant={"contained"} style={ ButtonStyleOrangeFull }>test</Button>
+
+                      <NerdButton buttonText={"test2"} styling={ ButtonStyleOrangeFull } variant={"contained"} />
                   </div>
               </div>
 
@@ -161,15 +143,15 @@ function App() {
 
                   </div>
 
-                  <div className={"row footer-container align-content-"}>
-          <div className={"col-md-12 col-lg-6 footer-left"}>
+            <div className={"row footer-container align-content-"}>
+                <div className={"col-md-12 col-lg-6 footer-left"}>
                     &nbsp;
                 </div>
                 <div className={"col-md-12 col-lg-6"}>
 
                 </div>
 
-              </div>
+            </div>
 
           </div>
     <p>&copy;2025 by Der Supernerd</p>
