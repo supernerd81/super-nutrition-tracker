@@ -59,7 +59,7 @@ function App() {
                       <h2>Grundumsatz pro Tag</h2>
 
                       <p className={"font-lg mb-0"}>2564 kcal</p>
-                      <p >Alter: 43 &bull; Gewicht: 80 kg &bull; Größe: 1,83 kg</p>
+                      <p >Alter: 43 &bull; Gewicht: 80 kg &bull; Größe: 1,83 cm</p>
                       <Button variant={"contained"} style={ ButtonStyleOrangeFull }>test</Button>
                   </div>
               </div>
