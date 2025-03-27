@@ -1,8 +1,11 @@
 import './css/App.css'
 import LoginIcon from '@mui/icons-material/Login';
-import {Box, Button, LinearProgress} from "@mui/material";
+import {Box, Button, IconButton, LinearProgress, ListItemButton, ListItemText} from "@mui/material";
 import {ArcElement, Chart as ChartJS, Legend, RadialLinearScale, Tooltip} from "chart.js";
 import {Gauge, gaugeClasses} from '@mui/x-charts/Gauge';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+
 
 const LoginButtonStyle = { color:"#394738", borderColor: "#394738", marginRight: "30px" }
 const ButtonStyleLightFull = { backgroundColor: "#eeede9", color: "#394738", width: "200px" }
@@ -61,9 +64,21 @@ function App() {
                   </div>
               </div>
 
-              <div className={"row"}>
+              <div className={"row "}>
 
-                  <div className={"col-md-12 col-lg-6"}>
+                  <div className={"col-md-12 col-lg-6 text-start p-5"}>
+
+                      <h3 className={"mb-4"}>Guten Tag %Vorname%,</h3>
+
+                      <p>schön, dass Du vorbei schaust! Was möchtest Du machen?</p>
+
+                      <ListItemButton component="a" href="#simple-list" sx={{color: '#f68247'}}>
+                          <ListItemText primary="Neue Mahlzeit / neuen Snack hinzufügen" />
+                      </ListItemButton>
+
+                      <ListItemButton component="a" href="#simple-list" sx={{color: '#f68247'}}>
+                          <ListItemText primary="Profildaten bearbeiten" />
+                      </ListItemButton>
 
                   </div>
                   <div className={"col-md-12 col-lg-6 p-4 mt-3"}>
@@ -159,7 +174,6 @@ function App() {
           </div>
     <p>&copy;2025 by Der Supernerd</p>
     </>
-
 
   )
 }
