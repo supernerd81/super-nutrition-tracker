@@ -29,6 +29,7 @@ export default function NewUserForm() {
     return (
         <Box
             component={"form"}
+            onSubmit={handleSubmit}
             sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -145,7 +146,7 @@ export default function NewUserForm() {
             />
             </div>
             <div className={"mt-4"} style={{ display: "flex", justifyContent: "flex-end", width: "100%", paddingRight: "25px" }}>
-                <Button variant="contained" endIcon={<SaveIcon />} style={{ backgroundColor: "#f68247" }} >
+                <Button type="submit" variant="contained" endIcon={<SaveIcon />} style={{ backgroundColor: "#f68247" }} >
                     Speichern
                 </Button>
             </div>
