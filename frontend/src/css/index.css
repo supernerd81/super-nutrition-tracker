@@ -22,8 +22,8 @@ html {
 }
 
 body {
-  background-image: url("../../images/main-background.png");
-  box-shadow: 10px 10px 20px var(--background-color2);
+  background-image: url("../images/main-background.png");
+  min-height: 1200px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -31,6 +31,7 @@ body {
 }
 
 .container {
+  box-shadow: 8px 8px 15px var(--background-color2);
   width:100%;
   border-radius: var(--borderradius);
   background-color: var(--background-color4);
@@ -62,7 +63,7 @@ body {
 
 .header-left {
   color: var(--fontcolor1);
-  background-image: url("/images/zweig-header-links.png");
+  background-image: url("../images/zweig-header-links.png");
   background-repeat: no-repeat;
   background-position: left bottom;
   padding-left: 120px;
@@ -71,7 +72,7 @@ body {
 .header-right {
 
   color: var(--fontcolor1);
-  background-image: url("/images/zweig-header-rechts.png");
+  background-image: url("../images/zweig-header-rechts.png");
   background-repeat: no-repeat;
   background-position: right bottom;
 }
@@ -111,7 +112,7 @@ body {
 }
 
 .footer-left {
-  background-image: url("images/vegetablebowl.png");
+  background-image: url("../images/vegetablebowl.png");
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: bottom;
