@@ -3,3 +3,4 @@
 
 /backend/src/main/resources/static/
 /.idea/
+node_modules/
