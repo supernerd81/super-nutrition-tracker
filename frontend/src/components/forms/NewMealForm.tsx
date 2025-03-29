@@ -1,4 +1,4 @@
-import {Box, InputAdornment, TextField, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 
 import '../../css/forms.css'
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
@@ -7,6 +7,7 @@ import dayjs, {Dayjs} from "dayjs";
 import SaveIcon from '@mui/icons-material/Save';
 import Button from '@mui/material/Button';
 import {useState} from "react";
+import NerdTextfield from "./NerdTextfield.tsx";
 
 
 export default function NewMealForm() {
@@ -52,35 +53,10 @@ export default function NewMealForm() {
             </Typography>
 
             <div style={{ marginBottom: "20px" }}>
-                <TextField
-                    id={"barcode"}
-                    label={"Barcode"}
-                    defaultValue={""}
-                    variant={"standard"}
-                    sx={ {
-                        width: "620px !important",
-                        marginRight: "20px",
-                        "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                        "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                        "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
-                    }}
-                /></div><div style={{ marginBottom: "20px" }}>
-            <TextField
-                required
-                id={"mealname"}
-                label={"Mahlzeit- / Produktname"}
-                defaultValue={""}
-                variant={"standard"}
-                sx={ {
-                    width: "300px !important",
-                    marginRight: "20px",
-                    "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                    "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                    "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
-                }}
-            />
+                <NerdTextfield id={"barcode"} label={"Barcode"} defaultValue={""} variant={"standard"} fieldWidth={"620px !important"} marginRight={"20px"} required={false} />
+            </div><div style={{ marginBottom: "20px" }}>
 
-            {/* DatePicker mit Pflichtfeld-Validierung */}
+            <NerdTextfield id={"mealname"} label={"Mahlzeit- / Produktname"} defaultValue={""} variant={"standard"} fieldWidth={"300px !important"} marginRight={"20px"} required={true} />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                     label="Datum & Uhrzeit *"
@@ -108,62 +84,10 @@ export default function NewMealForm() {
                 />
             </LocalizationProvider></div><div>
 
-            <TextField
-                required
-                id={"protein"}
-                label={"Protein"}
-                slotProps={{
-                    input: {
-                        endAdornment: <InputAdornment position="end">g</InputAdornment>,
-                    },
-                }}
-                defaultValue={""}
-                variant={"standard"}
-                sx={ {
-                    width: "195px !important",
-                    marginRight: "15px",
-                    "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                    "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                    "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
-                }}
-            />
-            <TextField
-                required
-                id={"carbohydrates"}
-                label={"Kohlenhydrate"}
-                slotProps={{
-                    input: {
-                        endAdornment: <InputAdornment position="end">g</InputAdornment>,
-                    },
-                }}
-                defaultValue={""}
-                variant={"standard"}
-                sx={ {
-                    width: "195px !important",
-                    marginRight: "15px",
-                    "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                    "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                    "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
-                }}
-            />
-            <TextField
-                required
-                id={"fat"}
-                label={"Fett"}
-                slotProps={{
-                    input: {
-                        endAdornment: <InputAdornment position="end">g</InputAdornment>,
-                    },
-                }}
-                defaultValue={""}
-                variant={"standard"}
-                sx={ {
-                    width: "200px !important",
-                    "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                    "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                    "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
-                }}
-            />
+            <NerdTextfield id={"protein"} label={"Protein"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} endAdorment={"g"} required={true} />
+            <NerdTextfield id={"carbohydrates"} label={"Kohlenhydrate"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} required={true} endAdorment={"g"} />
+            <NerdTextfield id={"fat"} label={"Fett"} defaultValue={""} variant={"standard"} fieldWidth={"200px !important"} marginRight={""} required={true} endAdorment={"g"} />
+
         </div>
             <div className={"mt-4"} style={{ display: "flex", justifyContent: "flex-end", width: "100%", paddingRight: "25px" }}>
                 <Button type="submit" variant="contained" endIcon={<SaveIcon />} style={{ backgroundColor: "#f68247" }} >

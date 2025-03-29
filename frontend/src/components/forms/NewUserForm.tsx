@@ -1,4 +1,4 @@
-import {Box, InputAdornment, TextField, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 
 import '../../css/forms.css'
 import {LocalizationProvider} from "@mui/x-date-pickers";
@@ -8,6 +8,7 @@ import {Dayjs} from "dayjs";
 import SaveIcon from '@mui/icons-material/Save';
 import Button from '@mui/material/Button';
 import {useState} from "react";
+import NerdTextfield from "./NerdTextfield.tsx";
 
 
 export default function NewUserForm() {
@@ -52,35 +53,11 @@ export default function NewUserForm() {
         </Typography>
 
             <div style={{ marginBottom: "20px" }}>
-                <TextField
-                    required
-                    id={"firstname"}
-                    label={"Vorname"}
-                    defaultValue={""}
-                    variant={"standard"}
-                    sx={ {
-                        width: "300px !important",
-                        marginRight: "20px",
-                        "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                        "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                        "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
-                    }}
-                    />
 
-                <TextField
-                    required
-                    id={"lastname"}
-                    label={"Nachname"}
-                    defaultValue={""}
-                    variant={"standard"}
-                    sx={ {
-                        width: "310px !important",
-                        marginRight: "10px",
-                        "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                        "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                        "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
-                    }}
-                /></div><div>
+                <NerdTextfield id={"firstname"} label={"Vorname"} defaultValue={""} variant={"standard"} fieldWidth={"300px !important"} marginRight={"20px"} required={true} />
+                <NerdTextfield id={"lastname"} label={"Nachname"} defaultValue={""} variant={"standard"} fieldWidth={"310px !important"} marginRight={"20px"} required={true} />
+
+            </div><div>
 
             {/* DatePicker mit Pflichtfeld-Validierung */}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -107,43 +84,9 @@ export default function NewUserForm() {
                 />
             </LocalizationProvider>
 
-            <TextField
-                required
-                id={"userweight"}
-                label={"Gewicht"}
-                slotProps={{
-                    input: {
-                        endAdornment: <InputAdornment position="end">kg</InputAdornment>,
-                    },
-                }}
-                defaultValue={""}
-                variant={"standard"}
-                sx={ {
-                    width: "150px !important",
-                    marginRight: "15px",
-                    "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                    "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                    "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
-                }}
-            />
-            <TextField
-                required
-                id={"userheight"}
-                label={"Größe"}
-                slotProps={{
-                    input: {
-                        endAdornment: <InputAdornment position="end">cm</InputAdornment>,
-                    },
-                }}
-                defaultValue={""}
-                variant={"standard"}
-                sx={ {
-                    width: "140px !important",
-                    "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                    "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                    "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
-                }}
-            />
+            <NerdTextfield id={"userweight"} label={"Gewicht"} defaultValue={""} variant={"standard"} fieldWidth={"150px"} marginRight={"15px"} endAdorment={"kg"} />
+            <NerdTextfield id={"userheight"} label={"Größe"} defaultValue={""} variant={"standard"} fieldWidth={"140px !important"} marginRight={""} endAdorment={"cm"} required={true}/>
+
             </div>
             <div className={"mt-4"} style={{ display: "flex", justifyContent: "flex-end", width: "100%", paddingRight: "25px" }}>
                 <Button type="submit" variant="contained" endIcon={<SaveIcon />} style={{ backgroundColor: "#f68247" }} >

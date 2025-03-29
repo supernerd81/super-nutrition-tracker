@@ -1,10 +1,10 @@
 import NerdNavigation from "./NerdNavigation.tsx";
-import NerdButton from "./NerdButton.tsx";
+import NerdButton from "./forms/NerdButton.tsx";
 import LoginIcon from "@mui/icons-material/Login";
 
 const LoginButtonStyle = { color:"#394738", borderColor: "#394738", marginRight: "30px" }
 const ButtonStyleLightFull = { backgroundColor: "#eeede9", color: "#394738", width: "200px" }
-const ButtonStyleDarkFull = { backgroundColor: "#394738", color: "#eeede9", width: "200px" }
+//const ButtonStyleDarkFull = { backgroundColor: "#394738", color: "#eeede9", width: "200px" }
 const ButtonStyleOrangeFull = { backgroundColor: "#f68247", color: "#eeede9", width: "200px" }
 
 export default function Header() {
