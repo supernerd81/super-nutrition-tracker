@@ -1,8 +1,7 @@
 import {Box, InputAdornment, TextField, Typography} from "@mui/material";
 
 import '../../css/forms.css'
-import {LocalizationProvider} from "@mui/x-date-pickers";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import {LocalizationProvider, DatePicker} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {Dayjs} from "dayjs";
 import SaveIcon from '@mui/icons-material/Save';
