@@ -1,5 +1,6 @@
 import {Drawer, IconButton, List, ListItem, ListItemText, Typography} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import * as React from "react";
 import {useState} from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import {useNavigate} from "react-router-dom";
@@ -9,8 +10,8 @@ export default function NerdNavigation() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate()
 
-    const toggleDrawer = (isOpen) => (event) => {
-        if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+    const toggleDrawer = (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+        if ("key" in event && (event.key === "Tab" || event.key === "Shift")) {
             return;
         }
         setOpen(isOpen);
@@ -27,26 +28,48 @@ export default function NerdNavigation() {
                     <CloseIcon />
                 </IconButton>
             </div>
-        <List sx={{ cursor: "pointer" }}>
-            <ListItem button onClick={() => {
-                navigate("/");
-                setOpen(false)
-            }}>
-                <ListItemText primary="Startseite"  />
-            </ListItem>
-            <ListItem button onClick={() => {
-                navigate("/meal/new");
-                setOpen(false)
-            }}>
-                <ListItemText primary="Mahlzeit oder Snack eingeben" />
-            </ListItem>
-            <ListItem button onClick={() => {
-                navigate("/user/new")
-                setOpen(false)
-            }}>
-                <ListItemText primary="Profildaten bearbeiten" />
-            </ListItem>
-        </List>
+            <List sx={{ cursor: "pointer" }}>
+                <ListItem
+                    onClick={() => {
+                        navigate("/")
+                        setOpen(false)
+                    }}
+                    sx={{
+                        color: "#f68247",
+                        textDecoration: "none",
+                        "&:hover": { backgroundColor: "#dbdbdb" }, // Sanfter Hover-Effekt
+                    }}
+                >
+                    <ListItemText primary="Startseite" />
+                </ListItem>
+                <ListItem
+                    onClick={() => {
+                        navigate("/meal/new")
+                        setOpen(false)
+                    }
+                }
+                    sx={{
+                        color: "#f68247",
+                        textDecoration: "none",
+                        "&:hover": { backgroundColor: "#dbdbdb" },
+                    }}
+                >
+                    <ListItemText primary="Mahlzeit oder Produkt hinzufügen" />
+                </ListItem>
+                <ListItem
+                    onClick={() => {
+                        navigate("/user/new")
+                        setOpen(false)
+                    }}
+                    sx={{
+                        color: "#f68247",
+                        textDecoration: "none",
+                        "&:hover": { backgroundColor: "#dbdbdb" },
+                    }}
+                >
+                    <ListItemText primary="Profildaten bearbeiten" />
+                </ListItem>
+            </List>
         </div>
     );
 

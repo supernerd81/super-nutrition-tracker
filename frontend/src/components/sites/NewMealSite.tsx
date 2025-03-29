@@ -1,7 +1,12 @@
-export default function NewMealSite() {
-    return(
+import NewMealForm from "../forms/NewMealForm.tsx";
+
+export default function NewUser() {
+    return (
         <>
-            teset
+            <div className={"col-12"}>
+                {<NewMealForm />}
+            </div>
         </>
     )
+
 }

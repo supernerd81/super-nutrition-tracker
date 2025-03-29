@@ -46,7 +46,7 @@ export default function NewUserForm() {
                 textAlign: "left", // Links ausgerichtet
             }}
         >
-                <h3 style={{ marginBottom: "20px" }}>Neues Profil anlegen</h3>
+                <h3 style={{ marginBottom: "18px" }}>Neues Profil anlegen</h3>
 
                 <p style={{ fontSize: "16px", marginTop: "10px" }}>Für die Berechnung des Grundumsatzes (kcal) pro Tag sind diese Angaben notwendig! Fülle deshalb das Formular vollständig aus und klicke anschließend auf speichern.</p>
         </Typography>
@@ -128,7 +128,7 @@ export default function NewUserForm() {
             />
             <TextField
                 required
-                id={"userweight"}
+                id={"userheight"}
                 label={"Größe"}
                 slotProps={{
                     input: {

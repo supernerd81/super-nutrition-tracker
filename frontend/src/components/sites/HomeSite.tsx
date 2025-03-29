@@ -1,7 +1,11 @@
 import {Box, LinearProgress, ListItemButton, ListItemText} from "@mui/material";
 import {Gauge, gaugeClasses} from "@mui/x-charts/Gauge";
+import {useNavigate} from "react-router-dom";
 
 export default function HomeSite() {
+
+    const navigate = useNavigate();
+
     return (
         <div className={"row "}>
 
@@ -11,12 +15,16 @@ export default function HomeSite() {
 
                 <p>schön, dass Du vorbei schaust! Was möchtest Du machen?</p>
 
-                <ListItemButton component="a" href="#simple-list" sx={{color: '#f68247'}}>
-                    <ListItemText primary="Neue Mahlzeit / neuen Snack hinzufügen" />
+                <ListItemButton component="a" onClick={ () => {
+                    navigate("/meal/new")
+                }} sx={{color: '#f68247'}}>
+                    <ListItemText primary="Mahlzeit oder Produkt hinzufügen" />
                 </ListItemButton>
 
-                <ListItemButton component="a" href="#simple-list" sx={{color: '#f68247'}}>
-                    <ListItemText primary="Profildaten bearbeiten" />
+                <ListItemButton component="a"  sx={{color: '#f68247'}} onClick={ () =>
+                    navigate("/user/new")
+                }>
+                    <ListItemText primary="Profildaten bearbeiten"  />
                 </ListItemButton>
 
             </div>
