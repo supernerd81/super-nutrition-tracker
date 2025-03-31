@@ -29,7 +29,7 @@ export default function Header() {
                     <NerdButton buttonText={"test"} styling={ButtonStyleLightFull} variant={"contained"} cssClasses="mt-3" />
                 </div>
                 <div className={"col-md-12 col-lg-6 header-right text-lg-start"}>
-                    <h2>Grundumsatz pro Tag</h2>
+                    <h2>Dein Grundumsatz pro Tag</h2>
 
                     <p className={"font-lg mb-0"}>2564 kcal</p>
                     <p >Alter: 43 &bull; Gewicht: 80 kg &bull; Größe: 183 cm</p>

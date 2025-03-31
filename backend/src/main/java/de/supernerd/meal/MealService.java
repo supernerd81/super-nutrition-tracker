@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MealService {
-    private final MealRepository mealRepository;
+    private final MealCatalogRepository mealCatalogRepository;
 
-    public MealService(MealRepository mealRepository) { this.mealRepository = mealRepository;}
+    public MealService(MealCatalogRepository mealCatalogRepository) { this.mealCatalogRepository = mealCatalogRepository;}
 }

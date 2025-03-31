@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/meal")
 public class MealController {
 
+    private final MealService mealService;
+
+    public MealController(MealService mealService) { this.mealService = mealService; }
+
     @GetMapping()
-    public String getAllNutrition() {
+    public String getAllMeal() {
         return "";
     }
 }
