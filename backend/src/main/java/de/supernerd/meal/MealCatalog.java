@@ -1,14 +1,13 @@
 package de.supernerd.meal;
 
 import lombok.With;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.LocalDateTime;
 
 @Document("meal_catalog")
 @With
 public record MealCatalog(
-    @id
+    @Id
     String id,
     String barcode,
     String name,
