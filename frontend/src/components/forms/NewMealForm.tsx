@@ -1,6 +1,7 @@
 import {Box, Typography} from "@mui/material";
 
 import '../../css/forms.css'
+import '../../css/DateTime.css'
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
@@ -63,7 +64,7 @@ export default function NewMealForm() {
                     value={selectedDateTime}
                     onChange={(newValue: Dayjs | null) => {
                         setSelectedDateTime(newValue);
-                        setError(!newValue); // Fehler setzen, falls kein Datum/Uhrzeit gewählt ist
+                        setError(!newValue);
                     }}
                     format="DD.MM.YYYY HH:mm"
                     slotProps={{
@@ -80,7 +81,19 @@ export default function NewMealForm() {
                                 "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" },
                             },
                         },
+                        day: {
+                            sx: {
+                                "&.Mui-selected": {
+                                    backgroundColor: "#f68247 !important",
+                                    color: "white !important",
+                                },
+                                "&:hover": {
+                                    backgroundColor: "rgba(230, 92, 30, 0.1) !important",
+                                },
+                            },
+                        },
                     }}
+
                 />
             </LocalizationProvider></div><div>
 

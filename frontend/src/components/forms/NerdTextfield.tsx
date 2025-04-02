@@ -11,7 +11,7 @@ type Props = {
     endAdorment?: string | null
 }
 
-export default function NerdTextfield(props: Props) {
+export default function NerdTextfield(props: Readonly<Props>) {
     return (
         <TextField
             required={props.required}

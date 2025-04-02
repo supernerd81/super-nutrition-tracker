@@ -8,6 +8,5 @@ public class Birthday {
         LocalDate now = LocalDate.now();
 
         return Period.between(birthday, now).getYears();
-
     }
 }

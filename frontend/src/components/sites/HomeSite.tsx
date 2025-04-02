@@ -1,8 +1,12 @@
 import {Box, LinearProgress, ListItemButton, ListItemText} from "@mui/material";
-import {Gauge, gaugeClasses} from "@mui/x-charts/Gauge";
 import {useNavigate} from "react-router-dom";
+import {Gauge, gaugeClasses} from "@mui/x-charts";
 
-export default function HomeSite() {
+type Props = {
+    firstname: string
+}
+
+export default function HomeSite(props: Readonly<Props>) {
 
     const navigate = useNavigate();
 
@@ -11,7 +15,7 @@ export default function HomeSite() {
 
             <div className={"col-md-12 col-lg-6 text-start p-5"}>
 
-                <h3 className={"mb-4"}>Guten Tag %Vorname%,</h3>
+                <h3 className={"mb-4"}>Guten Tag {props.firstname},</h3>
 
                 <p>schön, dass Du vorbei schaust! Was möchtest Du machen?</p>
 

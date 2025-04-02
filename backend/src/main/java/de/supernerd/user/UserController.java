@@ -8,20 +8,20 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("api/user")
 public class UserController {
 
     private final UserService userService;
 
     public UserController(UserService userService) { this.userService = userService; }
 
-    @PostMapping("newuser")
-    public ResponseUserDto addUser(@RequestBody NewUserDto newUser) {
+    @PostMapping("/new")
+    public ResponseUserDto newUser(@RequestBody NewUserDto newUser) {
         User savedUser = userService.saveUser(new User(null, newUser.firstname(), newUser.lastname(), newUser.birthday(), newUser.weight(), newUser.height()));
         return new ResponseUserDto(savedUser.id(), savedUser.firstname(), savedUser.lastname(), savedUser.birthday(), savedUser.weight(), savedUser.height());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseUserWithAgeDto getNerdUserById(@PathVariable String id) {
 
         try {
