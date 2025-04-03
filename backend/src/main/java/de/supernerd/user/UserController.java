@@ -17,7 +17,7 @@ public class UserController {
 
     @PostMapping("/new")
     public ResponseUserDto newUser(@RequestBody NewUserDto newUser) {
-        User savedUser = userService.saveUser(new User(null, newUser.firstname(), newUser.lastname(), newUser.birthday(), newUser.weight(), newUser.height()));
+        AppUser savedUser = userService.saveUser(new AppUser(null, newUser.firstname(), newUser.lastname(), newUser.birthday(), newUser.weight(), newUser.height()));
         return new ResponseUserDto(savedUser.id(), savedUser.firstname(), savedUser.lastname(), savedUser.birthday(), savedUser.weight(), savedUser.height());
     }
 
@@ -25,7 +25,7 @@ public class UserController {
     public ResponseUserWithAgeDto getNerdUserById(@PathVariable String id) {
 
         try {
-            User user = userService.getById(id);
+            AppUser user = userService.getById(id);
             return new ResponseUserWithAgeDto(user.id(), user.firstname(), user.lastname(), user.birthday(), Birthday.getAge(user.birthday()), user.weight(), user.height());
         } catch(NoSuchElementException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());

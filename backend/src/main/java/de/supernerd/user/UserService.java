@@ -11,18 +11,18 @@ public class UserService {
 
     public UserService(UserRepository userRepository) { this.userRepository = userRepository; }
 
-    public User getUser(String email) {
+    public AppUser getUser(String email) {
         return null;
     }
 
-    public User saveUser(User user) {
+    public AppUser saveUser(AppUser user) {
         String uuid = UUID.randomUUID().toString();
-        User userToSave = user.withId(uuid);
+        AppUser userToSave = user.withId(uuid);
 
         return userRepository.save(userToSave);
     }
 
-    public User getById(String id) {
+    public AppUser getById(String id) {
         return userRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 }

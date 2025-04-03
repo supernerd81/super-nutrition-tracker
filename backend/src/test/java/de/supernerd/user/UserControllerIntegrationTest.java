@@ -34,7 +34,7 @@ class UserControllerIntegrationTest {
     void getUserById_NerdUserExists() throws Exception {
 
         //GIVEN
-        User existingUser = new User("12345", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
+        AppUser existingUser = new AppUser("12345", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
         userRepository.save(existingUser);
 
         //WHEN
@@ -58,7 +58,7 @@ class UserControllerIntegrationTest {
     @DirtiesContext
     void getUserByid_userDoesNotExist() throws Exception {
         //GIVEN
-        User existingUser = new User("12345", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
+        AppUser existingUser = new AppUser("12345", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
         userRepository.save(existingUser);
 
         //WHEN
@@ -95,7 +95,7 @@ class UserControllerIntegrationTest {
                 .getContentAsString();
 
         //THEN
-        User actualUser = objectMapper.readValue(saveResult, User.class);
+        AppUser actualUser = objectMapper.readValue(saveResult, AppUser.class);
         assertThat(actualUser.id())
                 .isNotBlank();
 

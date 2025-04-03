@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Document("user")
 @With
-public record User(
+public record AppUser(
      @Id
      String id,
      String firstname,
