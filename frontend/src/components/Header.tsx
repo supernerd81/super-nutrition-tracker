@@ -1,13 +1,39 @@
 import NerdNavigation from "./NerdNavigation.tsx";
 import NerdButton from "./forms/NerdButton.tsx";
 import LoginIcon from "@mui/icons-material/Login";
+import {useEffect, useState} from "react";
 
 const LoginButtonStyle = { color:"#394738", borderColor: "#394738", marginRight: "30px" }
 const ButtonStyleLightFull = { backgroundColor: "#eeede9", color: "#394738", width: "200px" }
 //const ButtonStyleDarkFull = { backgroundColor: "#394738", color: "#eeede9", width: "200px" }
 const ButtonStyleOrangeFull = { backgroundColor: "#f68247", color: "#eeede9", width: "200px" }
 
-export default function Header() {
+type Props = {
+    target: number
+}
+
+export default function Header(props: Readonly<Props>) {
+        const [currentNumber, setCurrentNumber] = useState(0);
+
+        useEffect(() => {
+            let startTime: number;
+            const duration = 2000;
+
+            const animate = (timestamp: number) => {
+                if (!startTime) startTime = timestamp;
+                const progress = timestamp - startTime;
+                const increment = Math.min(progress / duration * props.target, props.target);
+                setCurrentNumber(increment);
+
+                if (increment < props.target) {
+                    requestAnimationFrame(animate);
+                }
+            };
+
+            requestAnimationFrame(animate);
+        }, [props.target]);
+
+    
     return (
         <>
                 <div className={"row pt-2"}>
@@ -31,7 +57,7 @@ export default function Header() {
                 <div className={"col-md-12 col-lg-6 header-right text-lg-start"}>
                     <h2>Dein Grundumsatz pro Tag</h2>
 
-                    <p className={"font-lg mb-0"}>2564 kcal</p>
+                    <p className={"font-lg mb-0"}>{ Math.floor(currentNumber) } kcal</p>
                     <p >Alter: 43 &bull; Gewicht: 80 kg &bull; Größe: 183 cm</p>
 
                     <NerdButton buttonText={"test2"} styling={ ButtonStyleOrangeFull } variant={"contained"} />
