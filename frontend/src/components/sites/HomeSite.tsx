@@ -1,35 +1,33 @@
-import {Box, LinearProgress, ListItemButton, ListItemText} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import {Box, LinearProgress} from "@mui/material";
 import {Gauge, gaugeClasses} from "@mui/x-charts";
+import {AppUser} from "../model/AppUser.ts";
+import HomeWelcomeText from "./elements/HomeWelcomeText.tsx";
+import HomeAuthText from "./elements/HomeAuthText.tsx";
+import {useEffect, useState} from "react";
 
 type Props = {
-    firstname: string
+    appUser: AppUser | undefined | null
 }
 
 export default function HomeSite(props: Readonly<Props>) {
 
-    const navigate = useNavigate();
+    const [greeting, setGreeting] =  useState("Hallo");
+
+    useEffect(() => {
+        const hour = new Date().getHours();
+        if(hour >= 5 && hour < 11) setGreeting("Guten Morgen");
+        else if(hour >= 11 && hour < 18) setGreeting("Guten Tag");
+        else setGreeting("Guten Abend");
+    }, [])
 
     return (
         <div className={"row "}>
 
             <div className={"col-md-12 col-lg-6 text-start p-5"}>
 
-                <h3 className={"mb-4"}>Guten Tag {props.firstname},</h3>
+                <h3 className={"mb-4"}>{greeting}, {props.appUser?.firstname ?? "Unbekannt"},</h3>
 
-                <p>schön, dass Du vorbei schaust! Was möchtest Du machen?</p>
-
-                <ListItemButton component="a" onClick={ () => {
-                    navigate("/meal/new")
-                }} sx={{color: '#f68247'}}>
-                    <ListItemText primary="Mahlzeit oder Produkt hinzufügen" />
-                </ListItemButton>
-
-                <ListItemButton component="a"  sx={{color: '#f68247'}} onClick={ () =>
-                    navigate("/user/new")
-                }>
-                    <ListItemText primary="Profildaten bearbeiten"  />
-                </ListItemButton>
+                { props.appUser === undefined ? <HomeAuthText /> : <HomeWelcomeText/> }
 
             </div>
             <div className={"col-md-12 col-lg-6 p-4 mt-3"}>

@@ -8,14 +8,16 @@ type props = {
     cssClasses?: string | undefined
     startIcon?: React.ReactNode
     color?: "primary" | "secondary" | "success" | "error" | "info" | "warning"
+    onClick?: () => void;
 }
 
 export default function NerdButton(props: Readonly<props>) {
+
     return (
-        <>
-            <Button variant={props.variant} {...(props.startIcon ? { startIcon: props.startIcon} : {})} {...(props.color ?  { color: props.color} : {})} style={ props.styling } className={props.cssClasses}>
-                {props.buttonText}
-            </Button>
-        </>
+        <Button variant={props.variant} {...(props.startIcon ? { startIcon: props.startIcon} : {})} {...(props.color ?  { color: props.color} : {})} style={ props.styling } className={props.cssClasses}
+                {...(typeof props.onClick === "function" ? { onClick: props.onClick } : {})} >
+            {props.buttonText}
+        </Button>
+
     )
 }

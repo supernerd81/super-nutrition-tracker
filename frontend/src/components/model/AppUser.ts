@@ -1,4 +1,4 @@
-export type User = {
+export type AppUser = {
     id: string,
     firstname: string,
     lastname: string

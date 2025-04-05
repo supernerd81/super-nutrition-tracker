@@ -8,18 +8,19 @@ import HomeSite from "./components/sites/HomeSite.tsx";
 import NewMealSite from "./components/sites/NewMealSite.tsx";
 import NewUser from "./components/sites/NewUser.tsx";
 import axios from 'axios';
-import {User} from "./components/model/User.ts";
+import {AppUser} from "./components/model/AppUser.ts";
+import ProtectedRoutes from "./components/ProtectedRoutes.tsx";
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 function App() {
 
-    const [userData, setUserData] = useState<User>()
+    const [appUser, setAppUser] = useState<AppUser | undefined | null>(undefined)
 
     function fetchUserData() {
         axios.get("/api/user/c44aea73-1e30-452c-878f-de8f1bcc55ba")
             .then(response => {
-                setUserData(response.data)
+                setAppUser(response.data)
                 console.log(response.data)
             })
             .catch(error => {
@@ -32,13 +33,16 @@ function App() {
   return (<>
       <div className={"container"}>
 
-          <Header target={2848}/>
+          <Header kcalPerDay={2848} appUser={appUser}/>
 
           <Routes>
-              <Route path={"/"} element={ <HomeSite firstname={ userData?.firstname ?? "<Vorname>" } /> } />
-              <Route path={"/meal/new"} element={ <NewMealSite /> } />
-              <Route path={"/meal/change/%id%"} element={ <NewMealSite /> } />
-              <Route path={"/user/new"} element={ <NewUser /> } />
+              <Route path={"/"} element={ <HomeSite appUser={ appUser } /> } />
+
+              <Route element={<ProtectedRoutes appUser={appUser} />} >
+                  <Route path={"/meal/new"} element={ <NewMealSite /> } />
+                  <Route path={"/meal/change/%id%"} element={ <NewMealSite /> } />
+                  <Route path={"/user/new"} element={ <NewUser /> } />
+              </Route>
           </Routes>
 
           <Footer />
