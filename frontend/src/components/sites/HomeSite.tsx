@@ -43,7 +43,7 @@ export default function HomeSite(props: Readonly<Props>) {
                         <Gauge
                             height={200}
                             width={400}
-                            value={1950}
+                            value={ props.appUser === undefined ? 0 : 1950 }
                             valueMax={2564}
                             startAngle={-110}
                             endAngle={110}
@@ -67,7 +67,7 @@ export default function HomeSite(props: Readonly<Props>) {
                         <div className={"col-4 p-3 "}>
                             <Box sx={{ width: '100%', fill: "#f68247" }}>
                                 {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={50}  sx={{
+                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 50  }  sx={{
                                     backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
                                     '& .MuiLinearProgress-bar': {
                                         backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)
@@ -81,7 +81,7 @@ export default function HomeSite(props: Readonly<Props>) {
                         <div className={"col-4 p-3 "}>
                             <Box sx={{ width: '100%', fill: "#f68247" }}>
                                 {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={70}  sx={{
+                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 70}  sx={{
                                     backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
                                     '& .MuiLinearProgress-bar': {
                                         backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)
@@ -95,7 +95,7 @@ export default function HomeSite(props: Readonly<Props>) {
                         <div className={"col-4 p-3 "}>
                             <Box sx={{ width: '100%', fill: "#f68247" }}>
                                 {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={30}  sx={{
+                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 30 }  sx={{
                                     backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
                                     '& .MuiLinearProgress-bar': {
                                         backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)

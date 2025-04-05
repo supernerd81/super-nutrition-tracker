@@ -74,8 +74,8 @@ export default function Header(props: Readonly<Props>) {
             <div className={"col-md-12 col-lg-6 header-right text-lg-start"}>
                 <h2>Dein Grundumsatz pro Tag</h2>
 
-                <p className={"font-lg mb-0"}>{ Math.floor(currentNumber) } kcal</p>
-                <p >Alter: 43 &bull; Gewicht: 80 kg &bull; Größe: 183 cm</p>
+                <p className={"font-lg mb-0"}>{ props.appUser === undefined ? "0000" : Math.floor(currentNumber) } kcal</p>
+                <p >Alter: { props.appUser === undefined ? "--" : 43} &bull; Gewicht: { props.appUser === undefined ? "--" : 80} kg &bull; Größe: { props.appUser === undefined ? "---" : 183 } cm</p>
 
                 <NerdButton buttonText={"test2"} styling={ ButtonStyleOrangeFull } variant={"contained"} />
             </div>
