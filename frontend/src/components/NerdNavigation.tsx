@@ -37,7 +37,7 @@ export default function NerdNavigation() {
                     sx={{
                         color: "#f68247",
                         textDecoration: "none",
-                        "&:hover": { backgroundColor: "#dbdbdb" }, // Sanfter Hover-Effekt
+                        "&:hover": { backgroundColor: "#dbdbdb" },
                     }}
                 >
                     <ListItemText primary="Startseite" />

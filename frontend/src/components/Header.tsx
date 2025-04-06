@@ -60,7 +60,7 @@ export default function Header(props: Readonly<Props>) {
                 <div className={"col-md-12 col-lg-5 text-lg-end align-content-center"}>
                     {
                         props.appUser === undefined ?
-                            <NerdButton buttonText={"Login"} styling={LoginButtonStyle } variant={"outlined"} startIcon={<LoginIcon/>} color={"info"} onClick={login}/>
+                            <NerdButton buttonText={"Login mit GitHub"} styling={LoginButtonStyle } variant={"outlined"} startIcon={<LoginIcon/>} color={"info"} onClick={login}/>
                             : <NerdButton buttonText={"Logout"} styling={LoginButtonStyle } variant={"outlined"} startIcon={<LogoutIcon/>} color={"info"} onClick={logout} />
                     }
                 </div>
