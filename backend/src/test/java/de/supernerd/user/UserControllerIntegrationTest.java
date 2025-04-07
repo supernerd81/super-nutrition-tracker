@@ -1,23 +1,15 @@
 package de.supernerd.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.supernerd.auth.AuthAppUser;
-import de.supernerd.auth.AuthAppUserRoles;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
@@ -45,11 +37,11 @@ class UserControllerIntegrationTest {
     void getUserById_NerdUserExists() throws Exception {
 
         //GIVEN
-        AppUser existingUser = new AppUser("12345", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
+        AppUserDetails existingUser = new AppUserDetails("12345", "196103614","Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
         userRepository.save(existingUser);
 
         //WHEN
-        mockMvc.perform(get("/api/user/12345")
+        mockMvc.perform(get("/api/user/196103614")
                 .with(oidcLogin().userInfoToken(token -> token
                         .claim("login", "testUser")
                         .claim("avatar_url", "testAvatarUrl")
@@ -60,6 +52,7 @@ class UserControllerIntegrationTest {
                 .andExpect(content().json("""
                     {
                       "id": "12345",
+                      "userid": "196103614",
                       "firstname": "Manuel",
                       "lastname": "Simon",
                       "birthday": "1981-08-11",
@@ -73,7 +66,7 @@ class UserControllerIntegrationTest {
     @DirtiesContext
     void getUserByid_userDoesNotExist() throws Exception {
         //GIVEN
-        AppUser existingUser = new AppUser("12345", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
+        AppUserDetails existingUser = new AppUserDetails("12345", "196103614", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
         userRepository.save(existingUser);
 
         //WHEN
@@ -122,7 +115,7 @@ class UserControllerIntegrationTest {
                 .getContentAsString();
 
         //THEN
-        AppUser actualUser = objectMapper.readValue(saveResult, AppUser.class);
+        AppUserDetails actualUser = objectMapper.readValue(saveResult, AppUserDetails.class);
         assertThat(actualUser.id())
                 .isNotBlank();
 

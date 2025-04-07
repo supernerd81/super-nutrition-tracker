@@ -17,16 +17,16 @@ public class UserController {
 
     @PostMapping("/new")
     public ResponseUserDto newUser(@RequestBody NewUserDto newUser) {
-        AppUser savedUser = userService.saveUser(new AppUser(null, newUser.firstname(), newUser.lastname(), newUser.birthday(), newUser.weight(), newUser.height()));
-        return new ResponseUserDto(savedUser.id(), savedUser.firstname(), savedUser.lastname(), savedUser.birthday(), savedUser.weight(), savedUser.height());
+        AppUserDetails savedUser = userService.saveUser(new AppUserDetails(null, "196103614", newUser.firstname(), newUser.lastname(), newUser.birthday(), newUser.weight(), newUser.height()));
+        return new ResponseUserDto(savedUser.id(), savedUser.userid(), savedUser.firstname(), savedUser.lastname(), savedUser.birthday(), savedUser.weight(), savedUser.height());
     }
 
     @GetMapping("/{id}")
     public ResponseUserWithAgeDto getNerdUserById(@PathVariable String id) {
 
         try {
-            AppUser user = userService.getById(id);
-            return new ResponseUserWithAgeDto(user.id(), user.firstname(), user.lastname(), user.birthday(), Birthday.getAge(user.birthday()), user.weight(), user.height());
+            AppUserDetails user = userService.getById(id);
+            return new ResponseUserWithAgeDto(user.id(), user.userid(), user.firstname(), user.lastname(), user.birthday(), Birthday.getAge(user.birthday()), user.weight(), user.height());
         } catch(NoSuchElementException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }

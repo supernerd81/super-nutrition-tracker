@@ -8,20 +8,36 @@ import HomeSite from "./components/sites/HomeSite.tsx";
 import NewMealSite from "./components/sites/NewMealSite.tsx";
 import NewUser from "./components/sites/NewUser.tsx";
 import axios from 'axios';
-import {AppUser} from "./components/model/AppUser.ts";
+import {AppUserDetails} from "./components/model/AppUserDetails.ts";
 import ProtectedRoutes from "./components/ProtectedRoutes.tsx";
+import {AppUser} from "./components/model/AppUser.ts";
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 function App() {
 
     const [appUser, setAppUser] = useState<AppUser | undefined | null>(undefined)
+    const [appUserDetails, setAppUserDetails] = useState<AppUserDetails | undefined | null>(undefined)
+    const [kcalPerDay, setKcalPerDay] = useState<number>(2648)
 
     function fetchUserData() {
-        axios.get("/api/user/c44aea73-1e30-452c-878f-de8f1bcc55ba")
-            .then(response => {
-                setAppUser(response.data)
-                console.log(response.data)
+        axios.get("/api/auth/me")
+            .then(r => {
+                const user = r.data
+
+                setAppUser(user)
+                console.log('User: ', user)
+
+                if(user?.id) {
+                    axios.get('api/user/' + user.id)
+                        .then(r => {
+                            setAppUserDetails(r.data)
+                            console.log('User details: ', r.data)
+                        })
+                        .catch(error => {
+                            console.error('Error fetching User data details: ', error)
+                        })
+                }
             })
             .catch(error => {
                 console.error('Error fetching User data: ', error)
@@ -33,10 +49,10 @@ function App() {
   return (<>
       <div className={"container"}>
 
-          <Header kcalPerDay={2848} appUser={appUser}/>
+          <Header kcalPerDay={kcalPerDay} appUser={appUser} appUserDetails={appUserDetails}/>
 
           <Routes>
-              <Route path={"/"} element={ <HomeSite appUser={ appUser } /> } />
+              <Route path={"/"} element={ <HomeSite appUserDetails={ appUserDetails } kcalPerDay={kcalPerDay} /> } />
 
               <Route element={<ProtectedRoutes appUser={appUser} />} >
                   <Route path={"/meal/new"} element={ <NewMealSite /> } />

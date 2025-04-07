@@ -4,6 +4,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import {useEffect, useState} from "react";
 import {AppUser} from "./model/AppUser.ts";
+import {AppUserDetails} from "./model/AppUserDetails.ts";
 
 const LoginButtonStyle = { color:"#394738", borderColor: "#394738", marginRight: "30px" }
 const ButtonStyleLightFull = { backgroundColor: "#eeede9", color: "#394738", width: "200px" }
@@ -13,6 +14,7 @@ const ButtonStyleOrangeFull = { backgroundColor: "#f68247", color: "#eeede9", wi
 type Props = {
     kcalPerDay: number,
     appUser: AppUser | undefined | null
+    appUserDetails: AppUserDetails | undefined | null
 }
 
 export default function Header(props: Readonly<Props>) {
@@ -75,7 +77,7 @@ export default function Header(props: Readonly<Props>) {
                 <h2>Dein Grundumsatz pro Tag</h2>
 
                 <p className={"font-lg mb-0"}>{ props.appUser === undefined ? "0000" : Math.floor(currentNumber) } kcal</p>
-                <p >Alter: { props.appUser === undefined ? "--" : 43} &bull; Gewicht: { props.appUser === undefined ? "--" : 80} kg &bull; Größe: { props.appUser === undefined ? "---" : 183 } cm</p>
+                <p >Alter: { props.appUser === undefined ? "--" : props.appUserDetails?.age} &bull; Gewicht: { props.appUser === undefined ? "--" : props.appUserDetails?.weight} kg &bull; Größe: { props.appUser === undefined ? "---" : props.appUserDetails?.height } cm</p>
 
                 <NerdButton buttonText={"test2"} styling={ ButtonStyleOrangeFull } variant={"contained"} />
             </div>

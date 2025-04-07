@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Birthday {
+
+    private Birthday() {
+
+    }
+
     public static int getAge(LocalDate birthday) {
         LocalDate now = LocalDate.now();
 

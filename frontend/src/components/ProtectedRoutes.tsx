@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import {Navigate, Outlet} from "react-router-dom";
 import {AppUser} from "./model/AppUser.ts";
 
 type Props = {

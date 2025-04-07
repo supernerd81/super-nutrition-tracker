@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public record ResponseUserWithAgeDto(
     String id,
+    String userid,
     String firstname,
     String lastname,
     LocalDate birthday,

@@ -1,12 +1,13 @@
 import {Box, LinearProgress} from "@mui/material";
 import {Gauge, gaugeClasses} from "@mui/x-charts";
-import {AppUser} from "../model/AppUser.ts";
 import HomeWelcomeText from "./elements/HomeWelcomeText.tsx";
 import HomeAuthText from "./elements/HomeAuthText.tsx";
 import {useEffect, useState} from "react";
+import {AppUserDetails} from "../model/AppUserDetails.ts";
 
 type Props = {
-    appUser: AppUser | undefined | null
+    appUserDetails: AppUserDetails | undefined | null,
+    kcalPerDay: number
 }
 
 export default function HomeSite(props: Readonly<Props>) {
@@ -25,9 +26,9 @@ export default function HomeSite(props: Readonly<Props>) {
 
             <div className={"col-md-12 col-lg-6 text-start p-5"}>
 
-                <h3 className={"mb-4"}>{greeting}, {props.appUser?.firstname ?? "Unbekannt"},</h3>
+                <h3 className={"mb-4"}>{greeting}, {props.appUserDetails?.firstname ?? "Unbekannt"},</h3>
 
-                { props.appUser === undefined ? <HomeAuthText /> : <HomeWelcomeText/> }
+                { props.appUserDetails === undefined ? <HomeAuthText /> : <HomeWelcomeText/> }
 
             </div>
             <div className={"col-md-12 col-lg-6 p-4 mt-3"}>
@@ -43,8 +44,8 @@ export default function HomeSite(props: Readonly<Props>) {
                         <Gauge
                             height={200}
                             width={400}
-                            value={ props.appUser === undefined ? 0 : 1950 }
-                            valueMax={2564}
+                            value={ props.appUserDetails === undefined ? 0 : 1950 }
+                            valueMax={props.kcalPerDay}
                             startAngle={-110}
                             endAngle={110}
                             cornerRadius="50%"
@@ -67,7 +68,7 @@ export default function HomeSite(props: Readonly<Props>) {
                         <div className={"col-4 p-3 "}>
                             <Box sx={{ width: '100%', fill: "#f68247" }}>
                                 {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 50  }  sx={{
+                                <LinearProgress variant="determinate" value={ props.appUserDetails === undefined ? 0 : 50  }  sx={{
                                     backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
                                     '& .MuiLinearProgress-bar': {
                                         backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)
@@ -81,7 +82,7 @@ export default function HomeSite(props: Readonly<Props>) {
                         <div className={"col-4 p-3 "}>
                             <Box sx={{ width: '100%', fill: "#f68247" }}>
                                 {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 70}  sx={{
+                                <LinearProgress variant="determinate" value={ props.appUserDetails === undefined ? 0 : 70}  sx={{
                                     backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
                                     '& .MuiLinearProgress-bar': {
                                         backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)
@@ -95,7 +96,7 @@ export default function HomeSite(props: Readonly<Props>) {
                         <div className={"col-4 p-3 "}>
                             <Box sx={{ width: '100%', fill: "#f68247" }}>
                                 {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 30 }  sx={{
+                                <LinearProgress variant="determinate" value={ props.appUserDetails === undefined ? 0 : 30 }  sx={{
                                     backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
                                     '& .MuiLinearProgress-bar': {
                                         backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)

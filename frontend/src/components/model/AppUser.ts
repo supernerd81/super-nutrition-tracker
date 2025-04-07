@@ -1,5 +1,6 @@
 export type AppUser = {
     id: string,
-    firstname: string,
-    lastname: string
+    username: string,
+    role: string,
+    name: string,
 }
