@@ -1,0 +1,121 @@
+:root {
+  --background-color1: #b8b4ab; /* grau fuer Body Hintergrund */
+  --background-color2: #394738; /* Dunkelgruen */
+  --background-color3: #799a61; /* helles gruen */
+  --background-color4: #eeede9; /* hellgrau */
+  --fontcolor1: var(--background-color4); /* hellgrau */
+  --fontcolor2:  var(--background-color2); /* dunkelgruen */
+  --specialcolor: #f68247; /* orange */
+  --borderradius: 40px;
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: var(--background-color1);
+
+}
+
+html {
+}
+
+body {
+  background-image: url("../images/main-background.png");
+  min-height: 1200px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: var(--background-color1);
+}
+
+.container {
+  box-shadow: 8px 8px 15px var(--background-color2);
+  width:100%;
+  border-radius: var(--borderradius);
+  background-color: var(--background-color4);
+  color: var(--fontcolor2);
+}
+
+.headline-container {
+  height: 40px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.headline {
+
+}
+
+.headline-font, h1, h2, h3, h4, h5, h6 {
+  font-family: "Permanent Marker", cursive;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.header-container {
+  margin-top: 10px;
+  background-color: var(--background-color2);
+  height: 300px;
+  padding-top:30px;
+}
+
+.header-left {
+  color: var(--fontcolor1);
+  background-image: url("../images/zweig-header-links.png");
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  padding-left: 120px;
+}
+
+.header-right {
+
+  color: var(--fontcolor1);
+  background-image: url("../images/zweig-header-rechts.png");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+}
+
+.button-style-1 {
+  background-color: var(--background-color4);
+  color: var(--fontcolor2);
+}
+
+.button-style-2 {
+  background-color: var(--specialcolor);
+  color: var(--fontcolor1);
+
+}
+
+.button {
+  margin-top: 20px;
+  border-radius: 30px 30px;
+  width: 200px;
+  height: 40px;
+}
+
+.font-lg {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.box1 {
+  box-shadow: 2px -4px 10px var(--background-color1);
+  border-radius: 10px;
+  height: 400px;
+
+}
+
+.footer-container {
+
+}
+
+.footer-left {
+  background-image: url("../images/vegetablebowl.png");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: bottom;
+  height: 200px;
+}
+

@@ -1,34 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './css/App.css'
+import {ArcElement, Chart as ChartJS, Legend, RadialLinearScale, Tooltip} from "chart.js";
+import {Route, Routes} from "react-router-dom";
+import {useEffect} from "react";
+import Header from "./components/Header.tsx";
+import Footer from "./components/Footer.tsx";
+import HomeSite from "./components/sites/HomeSite.tsx";
+import NewMealSite from "./components/sites/NewMealSite.tsx";
+import NewUser from "./components/sites/NewUser.tsx";
+
+
+ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    useEffect(() => {
+
+        }, [])
+
+  return (<>
+
+
+      <div className={"container"}>
+
+          <Header />
+
+          <Routes>
+              <Route path={"/"} element={ <HomeSite /> } />
+              <Route path={"/meal/new"} element={ <NewMealSite /> } />
+              <Route path={"/meal/change/%id%"} element={ <NewMealSite /> } />
+              <Route path={"/user/new"} element={ <NewUser /> } />
+          </Routes>
+
+          <Footer />
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <p className={ "mt-3" }>&copy;2025 by Der Supernerd</p>
     </>
+
   )
 }
 
