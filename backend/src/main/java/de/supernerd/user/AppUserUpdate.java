@@ -6,16 +6,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
-@Document("appuserdetails")
+@Document("authAppUser")
 @With
-public record AppUserDetails(
+public record AppUserUpdate(
      @Id
      String id,
      String userid,
      String firstname,
      String lastname,
      LocalDate birthday,
-     int weight,
-     int height
+     double weight,
+     double height,
+     Gender gender
 ) {
 }

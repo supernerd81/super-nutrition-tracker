@@ -8,8 +8,10 @@ public record ResponseUserWithAgeDto(
     String firstname,
     String lastname,
     LocalDate birthday,
-    int age,
-    int weight,
-    int height
+    double age,
+    double weight,
+    double height,
+    Gender gender,
+    double metabolicRate
 ) {
 }

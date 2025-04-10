@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -13,18 +12,18 @@ public class UserService {
 
     public UserService(UserRepository userRepository) { this.userRepository = userRepository; }
 
-    public AppUserDetails getUser(String email) {
+    public AppUserUpdate getUser(String email) {
         return null;
     }
 
-    public AppUserDetails saveUser(AppUserDetails user) {
-        String uuid = UUID.randomUUID().toString();
-        AppUserDetails userToSave = user.withId(uuid);
+    public AppUserUpdate saveUser(AppUserUpdate user) {
+//        String uuid = UUID.randomUUID().toString();
+//        AppUserUpdate userToSave = user.withId(uuid);
 
-        return userRepository.save(userToSave);
+        return userRepository.save(user);
     }
 
-    public AppUserDetails getById(String id) {
+    public AppUserUpdate getById(String id) {
 
         return  userRepository.findByUserid(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }

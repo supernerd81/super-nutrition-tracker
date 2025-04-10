@@ -13,7 +13,6 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -37,7 +36,7 @@ class UserControllerIntegrationTest {
     void getUserById_NerdUserExists() throws Exception {
 
         //GIVEN
-        AppUserDetails existingUser = new AppUserDetails("12345", "196103614","Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
+        AppUserUpdate existingUser = new AppUserUpdate( "196103614", "22","Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183, Gender.MALE);
         userRepository.save(existingUser);
 
         //WHEN
@@ -66,7 +65,7 @@ class UserControllerIntegrationTest {
     @DirtiesContext
     void getUserByid_userDoesNotExist() throws Exception {
         //GIVEN
-        AppUserDetails existingUser = new AppUserDetails("12345", "196103614", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183);
+        AppUserUpdate existingUser = new AppUserUpdate("196103614", "22", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183, Gender.MALE);
         userRepository.save(existingUser);
 
         //WHEN
@@ -107,7 +106,8 @@ class UserControllerIntegrationTest {
                               "lastname": "Simon",
                               "birthday": "1981-08-11",
                               "weight": 95,
-                              "height": 183
+                              "height": 183,
+                              "gender": "MALE"
                             }
                           """))
                 .andReturn()
@@ -115,7 +115,7 @@ class UserControllerIntegrationTest {
                 .getContentAsString();
 
         //THEN
-        AppUserDetails actualUser = objectMapper.readValue(saveResult, AppUserDetails.class);
+        AppUserUpdate actualUser = objectMapper.readValue(saveResult, AppUserUpdate.class);
         assertThat(actualUser.id())
                 .isNotBlank();
 

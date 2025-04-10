@@ -27,6 +27,22 @@ export default function NewMealForm() {
         }
     };
 
+    const [mealData, setMealData] = useState({
+
+        // firstname: (props?.appUser?.firstname === undefined ? "" : props.appUser.firstname),
+        // lastname: (props.appUser?.lastname === undefined ? "" : props.appUser.lastname),
+        // gender: props.appUser?.gender ?? "",
+        // userweight: props.appUser?.weight,
+        // userheight: props.appUser?.height
+    })
+
+    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const {name, value} =  event.target
+        setMealData((prevData) => ({
+            ...prevData, [name]: value,
+        }))
+    }
+
     return (
         <Box
             component={"form"}
@@ -54,10 +70,10 @@ export default function NewMealForm() {
             </Typography>
 
             <div style={{ marginBottom: "20px" }}>
-                <NerdTextfield id={"barcode"} label={"Barcode"} defaultValue={""} variant={"standard"} fieldWidth={"620px !important"} marginRight={"20px"} required={false} />
+                <NerdTextfield id={"barcode"} name={"barcode"} onChange={handleInputChange} type={"text"} label={"Barcode"} defaultValue={""} variant={"standard"} fieldWidth={"620px !important"} marginRight={"20px"} required={false} value={""}/>
             </div><div style={{ marginBottom: "20px" }}>
 
-            <NerdTextfield id={"mealname"} label={"Mahlzeit- / Produktname"} defaultValue={""} variant={"standard"} fieldWidth={"300px !important"} marginRight={"20px"} required={true} />
+            <NerdTextfield id={"mealname"} name={"mealname"} type={"text"} onChange={handleInputChange} label={"Mahlzeit- / Produktname"} defaultValue={""} variant={"standard"} fieldWidth={"300px !important"} marginRight={"20px"} required={true} />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                     label="Datum & Uhrzeit *"
@@ -97,9 +113,9 @@ export default function NewMealForm() {
                 />
             </LocalizationProvider></div><div>
 
-            <NerdTextfield id={"protein"} label={"Protein"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} endAdorment={"g"} required={true} />
-            <NerdTextfield id={"carbohydrates"} label={"Kohlenhydrate"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} required={true} endAdorment={"g"} />
-            <NerdTextfield id={"fat"} label={"Fett"} defaultValue={""} variant={"standard"} fieldWidth={"200px !important"} marginRight={""} required={true} endAdorment={"g"} />
+            <NerdTextfield id={"protein"} name={"protein"} onChange={handleInputChange} type={"number"} label={"Protein"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} endAdorment={"g"} required={true} />
+            <NerdTextfield id={"carbohydrates"} name={"carbohydrates"} onChange={handleInputChange} type={"number"} label={"Kohlenhydrate"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} required={true} endAdorment={"g"} />
+            <NerdTextfield id={"fat"} name={"fat"} onChange={handleInputChange} type={"number"} label={"Fett"} defaultValue={""} variant={"standard"} fieldWidth={"200px !important"} marginRight={""} required={true} endAdorment={"g"} />
 
         </div>
             <div className={"mt-4"} style={{ display: "flex", justifyContent: "flex-end", width: "100%", paddingRight: "25px" }}>

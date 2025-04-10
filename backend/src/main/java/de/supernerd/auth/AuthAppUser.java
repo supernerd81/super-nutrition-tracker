@@ -1,9 +1,7 @@
 package de.supernerd.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import de.supernerd.user.Gender;
+import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import org.springframework.data.annotation.Transient;
@@ -11,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +22,19 @@ public class AuthAppUser implements OAuth2User {
     private String id;
     private String username;
     private AuthAppUserRoles role;
+    private String firstname;
+    private String lastname;
+    private LocalDate birthday;
+    private int weight;
+    private int height;
+    private Gender gender;
+    private double metabolicRate;
+    private int age;
 
     @Transient
     @JsonIgnore
     private Map<String, Object> attributes;
+
 
     @Transient
     @JsonIgnore

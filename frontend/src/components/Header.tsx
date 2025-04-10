@@ -4,20 +4,19 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import {useEffect, useState} from "react";
 import {AppUser} from "./model/AppUser.ts";
-import {AppUserDetails} from "./model/AppUserDetails.ts";
+import {NavigateFunction, useNavigate} from "react-router-dom";
 
 const LoginButtonStyle = { color:"#394738", borderColor: "#394738", marginRight: "30px" }
 const ButtonStyleLightFull = { backgroundColor: "#eeede9", color: "#394738", width: "200px" }
-//const ButtonStyleDarkFull = { backgroundColor: "#394738", color: "#eeede9", width: "200px" }
 const ButtonStyleOrangeFull = { backgroundColor: "#f68247", color: "#eeede9", width: "200px" }
 
 type Props = {
-    kcalPerDay: number,
     appUser: AppUser | undefined | null
-    appUserDetails: AppUserDetails | undefined | null
 }
 
 export default function Header(props: Readonly<Props>) {
+
+    const navigate: NavigateFunction = useNavigate()
 
     function login() {
         const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
@@ -31,6 +30,7 @@ export default function Header(props: Readonly<Props>) {
 
     const [currentNumber, setCurrentNumber] = useState(0);
 
+    const metabolicRate = ((props.appUser?.metabolicRate === undefined) ? 0 : props.appUser.metabolicRate)
     useEffect(() => {
         let startTime: number;
         const duration = 2000;
@@ -38,16 +38,21 @@ export default function Header(props: Readonly<Props>) {
         const animate = (timestamp: number) => {
             if (!startTime) startTime = timestamp;
             const progress = timestamp - startTime;
-            const increment = Math.min(progress / duration * props.kcalPerDay, props.kcalPerDay);
+            const increment = Math.min(progress / duration * metabolicRate, metabolicRate);
             setCurrentNumber(increment);
 
-            if (increment < props.kcalPerDay) {
+            if (increment < metabolicRate) {
                 requestAnimationFrame(animate);
             }
         };
 
         requestAnimationFrame(animate);
-    }, [props.kcalPerDay]);
+    }, [metabolicRate]);
+
+    const formatBirtday = (dateStr: string) => {
+        const [year, month, day] = dateStr.split("-")
+        return `${day}.${month}.${year}`
+    }
 
     return (
         <>
@@ -70,16 +75,21 @@ export default function Header(props: Readonly<Props>) {
 
         <div className={"row header-container"}>
             <div className={"col-md-12 col-lg-6 header-left text-lg-start"}>
-                <h2>Track your Nutrition</h2>
-                <NerdButton buttonText={"test"} styling={ButtonStyleLightFull} variant={"contained"} cssClasses="mt-3" />
+                <h2>Dein Profil</h2>
+                <p style={{ fontSize: "16px" }}><b>Name:</b> { (props.appUser?.firstname === undefined ? "--" : props.appUser?.firstname) + " " + (props.appUser?.lastname === undefined ? "--" : props.appUser?.lastname) }
+                <br />
+                    <b>B-Day:</b>  { props.appUser?.birthday === undefined ? "--" : formatBirtday(props.appUser?.birthday) }</p>
+                <NerdButton buttonText={"Profil bearbeiten"} styling={ButtonStyleLightFull} variant={"contained"} cssClasses="mt-3" onClick={() => { navigate("/user/new")}}/>
             </div>
             <div className={"col-md-12 col-lg-6 header-right text-lg-start"}>
                 <h2>Dein Grundumsatz pro Tag</h2>
 
                 <p className={"font-lg mb-0"}>{ props.appUser === undefined ? "0000" : Math.floor(currentNumber) } kcal</p>
-                <p >Alter: { props.appUser === undefined ? "--" : props.appUserDetails?.age} &bull; Gewicht: { props.appUser === undefined ? "--" : props.appUserDetails?.weight} kg &bull; Größe: { props.appUser === undefined ? "---" : props.appUserDetails?.height } cm</p>
+                <p >Alter: { props.appUser === undefined ? "--" : props.appUser?.age} &bull; Gewicht: { props.appUser === undefined ? "--" : props.appUser?.weight} kg &bull; Größe: { props.appUser === undefined ? "---" : props.appUser?.height } cm</p>
 
-                <NerdButton buttonText={"test2"} styling={ ButtonStyleOrangeFull } variant={"contained"} />
+                <NerdButton buttonText={"Mahlzeit eingeben"} styling={ ButtonStyleOrangeFull } variant={"contained"} onClick={() => {
+                    navigate('/meal/new')
+                }} />
             </div>
         </div>
      </>

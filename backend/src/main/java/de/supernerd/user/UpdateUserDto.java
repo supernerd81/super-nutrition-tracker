@@ -2,11 +2,12 @@ package de.supernerd.user;
 
 import java.time.LocalDate;
 
-public record NewUserDto(
+public record UpdateUserDto(
         String firstname,
         String lastname,
         LocalDate birthday,
         int weight,
-        int height
+        int height,
+        Gender gender
 ) {
 }
