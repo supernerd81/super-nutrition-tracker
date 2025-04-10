@@ -1,5 +1,7 @@
-.idea
+# IntelliJ IDEA
+.idea/
 *.iml
 
 /backend/src/main/resources/static/
+/.idea/
 /node_modules/

@@ -1,4 +1,4 @@
-package de.supernerd.backend;
+package de.supernerd;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

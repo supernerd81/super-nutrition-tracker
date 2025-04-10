@@ -3,12 +3,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import * as React from "react";
 import {useState} from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import {useNavigate} from "react-router-dom";
+import {NavigateFunction, useNavigate} from "react-router-dom";
 
 export default function NerdNavigation() {
 
     const [open, setOpen] = useState(false);
-    const navigate = useNavigate()
+    const navigate:NavigateFunction = useNavigate()
 
     const toggleDrawer = (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if ("key" in event && (event.key === "Tab" || event.key === "Shift")) {
@@ -37,7 +37,7 @@ export default function NerdNavigation() {
                     sx={{
                         color: "#f68247",
                         textDecoration: "none",
-                        "&:hover": { backgroundColor: "#dbdbdb" }, // Sanfter Hover-Effekt
+                        "&:hover": { backgroundColor: "#dbdbdb" },
                     }}
                 >
                     <ListItemText primary="Startseite" />

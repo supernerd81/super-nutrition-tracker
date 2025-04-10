@@ -1,0 +1,41 @@
+.MuiMultiSectionDigitalClockSection-item.Mui-selected {
+    background-color: #e65c1e !important;
+    color: white !important;
+}
+
+.MuiPickersToolbar-ampmSelection .MuiButtonBase-root {
+    background-color: #f68247 !important;
+    color: white !important;
+}
+
+.MuiPickersToolbar-ampmSelection .MuiButtonBase-root.Mui-selected {
+    background-color: #e65c1e !important;
+    color: white !important;
+}
+
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+    color: #e65c1e !important;
+}
+
+.css-1wy8uaa-MuiButtonBase-root-MuiPickersDay-root.Mui-selected,
+.css-23p0if-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+    border-color: #e65c1e !important;
+    background-color: #e65c1e !important;
+    color: white !important;
+}
+
+.css-23p0if-MuiButtonBase-root-MuiPickersDay-root.Mui-selected:hover {
+    border-color: #e65c1e !important;
+    background-color: rgba(230, 92, 30, 0.8) !important;
+    color: white !important;
+}
+
+.css-23p0if-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected) {
+    border: 0 solid white !important;
+}
+
+.css-1wy8uaa-MuiButtonBase-root-MuiPickersDay-root:hover,.css-23p0if-MuiButtonBase-root-MuiPickersDay-root:hover,
+.css-1e3wlyl-MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item:hover,
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root:hover {
+    background-color: rgba(230, 92, 30, 0.1) !important;
+}

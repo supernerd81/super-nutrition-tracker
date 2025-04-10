@@ -1,4 +1,4 @@
-package de.supernerd.backend;
+package de.supernerd;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

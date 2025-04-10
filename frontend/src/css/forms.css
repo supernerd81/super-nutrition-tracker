@@ -1,3 +1,19 @@
 .formTextfield {
     width: 300px !important;
 }
+
+.MuiInput-underline:after {
+    border-bottom: 2px solid #f68247 !important;
+}
+
+.MuiInput-underline:hover:before {
+    border-bottom: 1px solid #f68247 !important;
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected:hover {
+background-color: rgba(246, 130, 71, 0.2) !important;
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected {
+    background-color: rgba(246, 130, 71, 0.1) !important;
+}

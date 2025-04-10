@@ -9,22 +9,29 @@ type Props = {
     marginRight: string
     required?: boolean | undefined
     endAdorment?: string | null
+    value?: string | null
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    name: string,
+    type: string
 }
 
-export default function NerdTextfield(props: Props) {
+export default function NerdTextfield(props: Readonly<Props>) {
     return (
         <TextField
             required={props.required}
             id={props.id}
+            value={props.value}
             label={props.label}
-            {...(props.endAdorment ? { slotProps: {
-                input: {
-                    endAdornment: <InputAdornment position="end">{props.endAdorment}</InputAdornment>,
-                },
-            }
-            } : {})}
+            name={props.name}
+            onChange={props.onChange}
+            InputProps={{
+                endAdornment: props.endAdorment ? (
+                    <InputAdornment position="end">{props.endAdorment}</InputAdornment>
+                ) : undefined
+            }}
             defaultValue={props.defaultValue}
             variant={props.variant}
+            type={props.type}
             sx={ {
                 width: props.fieldWidth,
                 marginRight: props.marginRight,

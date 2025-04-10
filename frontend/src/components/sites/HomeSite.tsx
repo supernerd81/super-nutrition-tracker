@@ -1,31 +1,40 @@
-import {Box, LinearProgress, ListItemButton, ListItemText} from "@mui/material";
-import {Gauge, gaugeClasses} from "@mui/x-charts/Gauge";
-import {useNavigate} from "react-router-dom";
+import {Box, LinearProgress} from "@mui/material";
+import {Gauge, gaugeClasses} from "@mui/x-charts";
+import HomeWelcomeText from "./elements/HomeWelcomeText.tsx";
+import HomeAuthText from "./elements/HomeAuthText.tsx";
+import {useEffect, useState} from "react";
+import {AppUser} from "../model/AppUser.ts";
 
-export default function HomeSite() {
+type Props = {
+    appUser: AppUser | undefined | null
+}
 
-    const navigate = useNavigate();
+export default function HomeSite(props: Readonly<Props>) {
+
+    const [greeting, setGreeting] =  useState("Hallo");
+
+    useEffect(() => {
+        const hour = new Date().getHours();
+        if(hour >= 5 && hour < 11) setGreeting("Guten Morgen");
+        else if(hour >= 11 && hour < 18) setGreeting("Guten Tag");
+        else setGreeting("Guten Abend");
+    }, [])
+
+    const [metabolicRate, setMetabolicRate] = useState<number >(2680)
+    useEffect(() => {
+        if(props.appUser?.metabolicRate !== undefined) {
+            setMetabolicRate(Math.floor(props.appUser.metabolicRate))
+        }
+    }, [props.appUser?.metabolicRate]);
 
     return (
         <div className={"row "}>
 
             <div className={"col-md-12 col-lg-6 text-start p-5"}>
 
-                <h3 className={"mb-4"}>Guten Tag %Vorname%,</h3>
+                <h3 className={"mb-4"}>{greeting}, {props.appUser?.firstname ?? "Unbekannt"},</h3>
 
-                <p>schön, dass Du vorbei schaust! Was möchtest Du machen?</p>
-
-                <ListItemButton component="a" onClick={ () => {
-                    navigate("/meal/new")
-                }} sx={{color: '#f68247'}}>
-                    <ListItemText primary="Mahlzeit oder Produkt hinzufügen" />
-                </ListItemButton>
-
-                <ListItemButton component="a"  sx={{color: '#f68247'}} onClick={ () =>
-                    navigate("/user/new")
-                }>
-                    <ListItemText primary="Profildaten bearbeiten"  />
-                </ListItemButton>
+                { props.appUser === undefined ? <HomeAuthText /> : <HomeWelcomeText/> }
 
             </div>
             <div className={"col-md-12 col-lg-6 p-4 mt-3"}>
@@ -41,14 +50,14 @@ export default function HomeSite() {
                         <Gauge
                             height={200}
                             width={400}
-                            value={1950}
-                            valueMax={2564}
+                            value={ props.appUser === undefined ? 0 : 1950 }
+                            valueMax={metabolicRate}
                             startAngle={-110}
                             endAngle={110}
                             cornerRadius="50%"
                             sx={{
                                 [`& .${gaugeClasses.valueText}`]: {
-                                    fontSize: 30,
+                                    fontSize: 28,
                                     transform: 'translate(0px, 0px)',
                                 },
                                 [`& .${gaugeClasses.valueArc}`]: {
@@ -64,11 +73,10 @@ export default function HomeSite() {
                     <div className={"row p-5"}>
                         <div className={"col-4 p-3 "}>
                             <Box sx={{ width: '100%', fill: "#f68247" }}>
-                                {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={50}  sx={{
-                                    backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
+                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 50  }  sx={{
+                                    backgroundColor: '#e0e0e0',
                                     '& .MuiLinearProgress-bar': {
-                                        backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)
+                                        backgroundColor: '#799a61',
                                     },
                                 }}/>
                             </Box>
@@ -79,7 +87,7 @@ export default function HomeSite() {
                         <div className={"col-4 p-3 "}>
                             <Box sx={{ width: '100%', fill: "#f68247" }}>
                                 {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={70}  sx={{
+                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 70}  sx={{
                                     backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
                                     '& .MuiLinearProgress-bar': {
                                         backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)
@@ -93,7 +101,7 @@ export default function HomeSite() {
                         <div className={"col-4 p-3 "}>
                             <Box sx={{ width: '100%', fill: "#f68247" }}>
                                 {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={30}  sx={{
+                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 30 }  sx={{
                                     backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
                                     '& .MuiLinearProgress-bar': {
                                         backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)
