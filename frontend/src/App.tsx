@@ -41,8 +41,8 @@ function App() {
               <Route path={"/"} element={ <HomeSite appUser={ appUser }  /> } />
 
               <Route element={<ProtectedRoutes appUser={appUser} />} >
-                  <Route path={"/meal/new"} element={ <NewMealSite /> } />
-                  <Route path={"/meal/change/%id%"} element={ <NewMealSite /> } />
+                  <Route path={"/meal/new"} element={ <NewMealSite appUser={appUser} /> } />
+                  <Route path={"/meal/change/%id%"} element={ <NewMealSite appUser={appUser}/> } />
                   <Route path={"/user/new"} element={ <UpdateProfile appUser={appUser} setAppUser={setAppUser}/> } />
               </Route>
           </Routes>
