@@ -1,4 +1,4 @@
-import {Alert, Box, Snackbar, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 
 import '../../css/forms.css'
 import '../../css/DateTime.css'
@@ -13,6 +13,7 @@ import axios from "axios";
 import {NewMeal} from "../model/NewMeal.ts";
 import {AppUser} from "../model/AppUser.ts";
 import Loader from "../utils/Loader.tsx";
+import NerdSnackbar from "./NerdSnackbar.tsx";
 
 type Props = {
     appUser: AppUser | undefined | null
@@ -25,13 +26,11 @@ export default function NewMealForm(props: Readonly<Props>) {
     const [isLoading, setIsLoading] = useState(true)
 
     const [mealData, setMealData] = useState({
-
         barcode: "",
         mealName: "",
         protein: "",
         carbohydrates: "",
         fat: ""
-
     })
 
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -127,7 +126,7 @@ export default function NewMealForm(props: Readonly<Props>) {
 
             } catch(error) {
                 console.error("Fehler beim Speichern: ", error);
-                setSnackbarMessage("Fehler beim Speichern. Bitte versuche es erneut.");
+                setSnackbarMessage("Fehler beim Speichern. Bitte versuche es später erneut.");
                 setSnackbarSeverity("error");
                 setOpenSnackbar(true);
             } finally {
@@ -153,20 +152,13 @@ export default function NewMealForm(props: Readonly<Props>) {
             }}
             className={"mt-5 "}
         >
-            <Snackbar
-                open={openSnackbar}
-                autoHideDuration={5000}
-                onClose={() => setOpenSnackbar(false)}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            >
-                <Alert
-                    onClose={() => setOpenSnackbar(false)}
-                    severity={snackbarSeverity}
-                    sx={{ width: '100%' }}
-                >
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
+
+            <NerdSnackbar
+                openSnackbar={openSnackbar}
+                setOpenSnackbar={setOpenSnackbar}
+                snackbarMessage={snackbarMessage}
+                snackbarSeverity={snackbarSeverity}
+            />
 
             <Typography
                 variant="h6"
