@@ -14,6 +14,7 @@ import NerdSelectField from "./NerdSelectField.tsx";
 import {AppUser} from "../model/AppUser.ts";
 import axios from "axios";
 import Loader from "../utils/Loader.tsx";
+import NerdSnackbar from "./NerdSnackbar.tsx";
 
 type Props = {
     appUser: AppUser | undefined | null
@@ -36,6 +37,10 @@ export default function UpdateProfileForm(props: Props) {
         birthday: props.appUser?.birthday ?? "",
 
     })
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success")
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         const {name, value} =  event.target
@@ -82,10 +87,14 @@ export default function UpdateProfileForm(props: Props) {
                 // 👇 Hier kommt dein neuer AppUser rein
                 console.log(response.data)
                 props.setAppUser(response.data);
-
+                setSnackbarMessage("Speichern erfolgreich!");
+                setSnackbarSeverity("success");
+                setOpenSnackbar(true);
             } catch (error) {
                 console.error("Fehler beim Aktualisieren des Profils:", error);
-                // Optional: Fehler anzeigen
+                setSnackbarMessage("Fehler beim Speichern. Bitte versuche es später erneut.")
+                setSnackbarSeverity("success")
+                setOpenSnackbar(true)
             } finally {
                 setIsLoading(true)
             }
@@ -111,6 +120,14 @@ export default function UpdateProfileForm(props: Props) {
             }}
             className={"mt-5 "}
         >
+
+            <NerdSnackbar
+                openSnackbar={openSnackbar}
+                setOpenSnackbar={setOpenSnackbar}
+                snackbarMessage={snackbarMessage}
+                snackbarSeverity={snackbarSeverity}
+            />
+
             <Typography
             variant="h6"
             sx={{
