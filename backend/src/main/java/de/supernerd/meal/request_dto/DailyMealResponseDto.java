@@ -1,4 +1,4 @@
-package de.supernerd.meal.requestDto;
+package de.supernerd.meal.request_dto;
 
 import de.supernerd.meal.models.Meals;
 

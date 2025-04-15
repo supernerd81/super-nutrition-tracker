@@ -103,7 +103,7 @@ body {
 .box1 {
   box-shadow: 2px -4px 10px var(--background-color1);
   border-radius: 10px;
-  height: 400px;
+  min-height: 400px;
 
 }
 

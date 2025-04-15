@@ -71,7 +71,7 @@ export default function NewMealForm(props: Readonly<Props>) {
                 fat: data.fat?.toString() || ""
             }))
 
-            setSnackbarMessage("Mahlzeit bzw. wurde automatisch geladen!")
+            setSnackbarMessage("Mahlzeit bzw. Produkt wurde automatisch geladen!")
             setSnackbarSeverity("success")
             setOpenSnackbar(true)
         } catch (error) {
@@ -113,7 +113,6 @@ export default function NewMealForm(props: Readonly<Props>) {
                     setSnackbarSeverity("success");
                     setOpenSnackbar(true);
 
-                    // 🧹 Formular zurücksetzen
                     setMealData({
                         barcode: "",
                         mealName: "",
@@ -146,9 +145,9 @@ export default function NewMealForm(props: Readonly<Props>) {
             sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "flex-start", // Links ausrichten
-                width: "650px", // Formularbreite
-                margin: "auto", // Ganze Box zentrieren
+                alignItems: "flex-start",
+                width: "650px",
+                margin: "auto",
             }}
             className={"mt-5 "}
         >
@@ -164,7 +163,7 @@ export default function NewMealForm(props: Readonly<Props>) {
                 variant="h6"
                 sx={{
                     marginBottom: "10px",
-                    textAlign: "left", // Links ausgerichtet
+                    textAlign: "left",
                 }}
             >
                 <h3 style={{ marginBottom: "18px" }}>Mahlzeit oder Produkt eingeben</h3>

@@ -21,7 +21,7 @@ type Props = {
     setAppUser: React.Dispatch<React.SetStateAction<AppUser | null | undefined>>
 }
 
-export default function UpdateProfileForm(props: Props) {
+export default function UpdateProfileForm(props: Readonly<Props>) {
 
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
     const [error, setError] = useState(false);
@@ -67,7 +67,7 @@ export default function UpdateProfileForm(props: Props) {
         setIsLoading(false)
 
         if (!selectedDate) {
-            setError(true) // Fehler anzeigen, wenn kein Datum gewählt wurde
+            setError(true)
             setIsLoading(true)
         } else {
             setError(false)
@@ -84,7 +84,6 @@ export default function UpdateProfileForm(props: Props) {
                     height: profileData.userheight
                 });
 
-                // 👇 Hier kommt dein neuer AppUser rein
                 console.log(response.data)
                 props.setAppUser(response.data);
                 setSnackbarMessage("Speichern erfolgreich!");
@@ -114,9 +113,9 @@ export default function UpdateProfileForm(props: Props) {
             sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "flex-start", // Links ausrichten
-                width: "650px", // Formularbreite
-                margin: "auto", // Ganze Box zentrieren
+                alignItems: "flex-start",
+                width: "650px",
+                margin: "auto",
             }}
             className={"mt-5 "}
         >
@@ -158,14 +157,14 @@ export default function UpdateProfileForm(props: Props) {
                         textField: {
                             variant: "standard",
                             fullWidth: true,
-                            error: error, // Fehlerzustand setzen
+                            error: error,
                             helperText: error ? "Bitte ein Datum auswählen!" : "",
                             sx: {
                                 width: "300px !important",
                                 marginRight: "20px",
-                                "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                                "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                                "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
+                                "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" },
+                                "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" },
+                                "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" },
                             },
                         },
                     }}

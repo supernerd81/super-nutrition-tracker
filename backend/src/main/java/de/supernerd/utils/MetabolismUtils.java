@@ -1,6 +1,9 @@
 package de.supernerd.utils;
 
 public class MetabolismUtils {
+
+    private MetabolismUtils() {}
+
     public static double calculateBasalMetabolicRate(int age, double weight, double height, String gender) {
 
         if(gender.isEmpty()) {
@@ -14,5 +17,17 @@ public class MetabolismUtils {
         } else {
             throw new IllegalArgumentException("Invalid gender: " + gender);
         }
+    }
+
+    public static int calculateMaxFatRate(double metabolicRate) {
+        return (int) Math.round(metabolicRate * 0.25 / 9);
+    }
+
+    public static int calculateMaxCarbohydratesRate(double metabolicRate) {
+        return (int) Math.round(metabolicRate * 0.5 / 4);
+    }
+
+    public static int calculateMaxProteinRate(double metabolicRate) {
+        return (int) Math.round(metabolicRate * 0.25 / 4);
     }
 }

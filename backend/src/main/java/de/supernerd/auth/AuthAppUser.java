@@ -51,4 +51,5 @@ public class AuthAppUser implements OAuth2User {
     @Override
     @JsonIgnore
     public String getName() { return id; }
+
 }

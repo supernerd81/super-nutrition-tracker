@@ -1,9 +1,8 @@
-import {Box, LinearProgress} from "@mui/material";
-import {Gauge, gaugeClasses} from "@mui/x-charts";
 import HomeWelcomeText from "./elements/HomeWelcomeText.tsx";
 import HomeAuthText from "./elements/HomeAuthText.tsx";
 import {useEffect, useState} from "react";
 import {AppUser} from "../model/AppUser.ts";
+import NerdMealsToday from "./elements/NerdMealsToday.tsx";
 
 type Props = {
     appUser: AppUser | undefined | null
@@ -38,80 +37,8 @@ export default function HomeSite(props: Readonly<Props>) {
 
             </div>
             <div className={"col-md-12 col-lg-6 p-4 mt-3"}>
-                <div className={"col-12 box1  pt-2"}>
 
-                    <div className={"row mb-3"}>
-                        <div className={"col-12"}>
-                            <h2 className={"fw-bold"}>Heute</h2>
-                        </div>
-                    </div>
-
-                    <div className={"row"}>
-                        <Gauge
-                            height={200}
-                            width={400}
-                            value={ props.appUser === undefined ? 0 : 1950 }
-                            valueMax={metabolicRate}
-                            startAngle={-110}
-                            endAngle={110}
-                            cornerRadius="50%"
-                            sx={{
-                                [`& .${gaugeClasses.valueText}`]: {
-                                    fontSize: 28,
-                                    transform: 'translate(0px, 0px)',
-                                },
-                                [`& .${gaugeClasses.valueArc}`]: {
-                                    fill: '#f68247',
-                                },
-                            }}
-                            text={
-                                ({ value, valueMax }) => `${value} / ${valueMax}`
-                            }
-                        />
-                    </div>
-
-                    <div className={"row p-5"}>
-                        <div className={"col-4 p-3 "}>
-                            <Box sx={{ width: '100%', fill: "#f68247" }}>
-                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 50  }  sx={{
-                                    backgroundColor: '#e0e0e0',
-                                    '& .MuiLinearProgress-bar': {
-                                        backgroundColor: '#799a61',
-                                    },
-                                }}/>
-                            </Box>
-                            <p>Fett</p>
-
-                        </div>
-
-                        <div className={"col-4 p-3 "}>
-                            <Box sx={{ width: '100%', fill: "#f68247" }}>
-                                {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 70}  sx={{
-                                    backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
-                                    '& .MuiLinearProgress-bar': {
-                                        backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)
-                                    },
-                                }}/>
-                            </Box>
-                            <p>KH</p>
-
-                        </div>
-
-                        <div className={"col-4 p-3 "}>
-                            <Box sx={{ width: '100%', fill: "#f68247" }}>
-                                {/* Setze einen statischen Wert für den Fortschritt */}
-                                <LinearProgress variant="determinate" value={ props.appUser === undefined ? 0 : 30 }  sx={{
-                                    backgroundColor: '#e0e0e0', // Hintergrundfarbe (Track)
-                                    '& .MuiLinearProgress-bar': {
-                                        backgroundColor: '#799a61', // Fortschrittsfarbe (Bar)
-                                    },
-                                }}/>
-                            </Box>
-                            <p>Protein</p>
-                        </div>
-                    </div>
-                </div>
+                <NerdMealsToday appUser={props.appUser} metabolicRate={metabolicRate} />
             </div>
 
         </div>

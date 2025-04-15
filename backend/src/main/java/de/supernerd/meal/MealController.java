@@ -2,9 +2,10 @@ package de.supernerd.meal;
 
 import de.supernerd.meal.models.DailyMeal;
 import de.supernerd.meal.models.Meals;
-import de.supernerd.meal.requestDto.DailyMealNewRequestDto;
-import de.supernerd.meal.requestDto.DailyMealResponseDto;
-import de.supernerd.meal.requestDto.MealByBarcodeResponseDto;
+import de.supernerd.meal.request_dto.DailyMealNewRequestDto;
+import de.supernerd.meal.request_dto.DailyMealResponseDto;
+import de.supernerd.meal.request_dto.DailyMealsTodayResponseDto;
+import de.supernerd.meal.request_dto.MealByBarcodeResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +22,15 @@ public class MealController {
 
     @GetMapping("/all")
     public String getAllMeals() {
+
+        //196103614
+        mealService.getMealsByUserId("196103614");
         return "";
     }
 
     @GetMapping("/{userid}")
     public List<DailyMealResponseDto> getMealById(@PathVariable String userid) {
+
         return mealService.getAllMealsByUserId(userid);
     }
 
@@ -47,6 +52,15 @@ public class MealController {
         }
     }
 
+    @GetMapping("/today/{userid}")
+    public ResponseEntity<DailyMealsTodayResponseDto> mealsToday(@PathVariable String userid) {
+        try {
+            return ResponseEntity.ok(mealService.getMealsByUserId(userid));
+        } catch(Exception ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
     @PutMapping("/update")
     public DailyMealNewRequestDto updateMeal(DailyMealNewRequestDto dailyMealDto) {
 
@@ -54,5 +68,10 @@ public class MealController {
 
 
         return dailyMealDto;
+    }
+
+    @DeleteMapping("/delete/{mealTodayId}")
+    public void deleteMeal(@PathVariable String mealTodayId) {
+
     }
 }
