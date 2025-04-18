@@ -11,9 +11,9 @@ public class MetabolismUtils {
         }
 
         if(gender.equalsIgnoreCase("male")) {
-            return (10 * weight + 6.25 * height - 5 * age + 5) * 1.8;
+            return (10 * weight + 6.25 * height - 5 * age + 5) * 1.5;
         } else if(gender.equalsIgnoreCase("female")) {
-            return (10 * weight + 6.25 * height - 5 * age - 161) * 1.8;
+            return (10 * weight + 6.25 * height - 5 * age - 161) * 1.5;
         } else {
             throw new IllegalArgumentException("Invalid gender: " + gender);
         }

@@ -21,8 +21,8 @@ type Props = {
 
 export default function NewMealForm(props: Readonly<Props>) {
 
-    const [selectedDateTime, setSelectedDateTime] = useState<Dayjs | null>(dayjs()); // Standardwert ist das aktuelle Datum & Uhrzeit
-    const [error, setError] = useState(false);
+    const [selectedDateTime, setSelectedDateTime] = useState<Dayjs | null>(dayjs())
+    const [error, setError] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
 
     const [mealData, setMealData] = useState({

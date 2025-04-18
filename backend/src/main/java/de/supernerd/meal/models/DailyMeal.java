@@ -12,7 +12,7 @@ public record DailyMeal(
      @Id
      String id,
      String userId,
-     String mealCatalogId,
+     String mealsId,
      LocalDateTime datetime,
      int protein,
      int carbohydrates,

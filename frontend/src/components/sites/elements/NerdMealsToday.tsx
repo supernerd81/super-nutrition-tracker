@@ -15,36 +15,54 @@ export default function NerdMealsToday(props: Readonly<Props>) {
 
     const [metabolicRatesTodayData, setMetabolicRatesTodayData] = useState<TodayMetabolic>()
     const navigate = useNavigate();
+    const [fatPercent, setFatPercent] = useState<number>()
+    const [carbohydratesPercent, setCarbohydratesPercent] = useState<number>()
+    const [proteinPercent, setProteinPercent] = useState<number>()
+    const [fatBoxColor, setFatBoxColor] = useState<string>("#df2727")
+    const [proteinBoxColor, setProteinBoxColor] = useState<string>("#df2727")
+    const [carbohydratesBoxColor, setCarbohydratesBoxColor] = useState<string>("#df2727")
+    const [gaugeColor, setGaugeColor] = useState<string>()
 
     function mealToday() {
+        if (!props.appUser?.id) return
         axios.get(`/api/meal/today/${props.appUser?.id}`)
             .then(r => {
                 const metabolicRatesToday = r.data
                 setMetabolicRatesTodayData(metabolicRatesToday)
-
             })
             .catch(error => {
                 console.error('Error fetching User data: ', error)
             })
+
     }
-    useEffect(mealToday, [props.appUser])
+    useEffect(mealToday, [props.appUser?.id])
 
-    const fatPercent = props.appUser && metabolicRatesTodayData?.fatPercent !== undefined
-        ? Math.min(metabolicRatesTodayData.fatPercent, 100)
-        : 0;
+    function macronutrients() {
+        if (!props.appUser || !metabolicRatesTodayData) return;
 
-    const carbohydratesPercent = props.appUser && metabolicRatesTodayData?.carbohydratesPercent !== undefined
-        ? Math.min(metabolicRatesTodayData.carbohydratesPercent, 100)
-        : 0;
+        setFatPercent(props.appUser && metabolicRatesTodayData?.fatPercent !== undefined
+            ? Math.min(metabolicRatesTodayData.fatPercent, 100)
+            : 0)
 
-    const proteinPercent = props.appUser && metabolicRatesTodayData?.proteinPercent !== undefined
-        ? Math.min(metabolicRatesTodayData.proteinPercent, 100)
-        : 0;
+        setCarbohydratesPercent(props.appUser && metabolicRatesTodayData?.carbohydratesPercent !== undefined
+            ? Math.min(metabolicRatesTodayData.carbohydratesPercent, 100)
+            : 0)
 
-    const fatBoxColor = (metabolicRatesTodayData !== undefined && metabolicRatesTodayData?.fatPercent > 100 ? "#df2727" : "#799a61")
-    const proteinBoxColor = (metabolicRatesTodayData !== undefined && metabolicRatesTodayData?.proteinPercent > 100 ? "#df2727" : "#799a61")
-    const carbohydratesBoxColor = (metabolicRatesTodayData !== undefined &&metabolicRatesTodayData?.carbohydratesPercent > 100 ? "#df2727" : "#799a61")
-    const gaugeColor = (metabolicRatesTodayData !== undefined &&metabolicRatesTodayData?.kcalToday > props.metabolicRate ? "#df2727" : "#799a61")
+        setProteinPercent(props.appUser && metabolicRatesTodayData?.proteinPercent !== undefined
+            ? Math.min(metabolicRatesTodayData.proteinPercent, 100)
+            : 0)
+
+        setFatBoxColor( (metabolicRatesTodayData?.fatPercent > 100 ? "#df2727" : "#799a61"))
+        setProteinBoxColor( (metabolicRatesTodayData?.proteinPercent > 100 ? "#df2727" : "#799a61"))
+        setCarbohydratesBoxColor( (metabolicRatesTodayData?.carbohydratesPercent > 100 ? "#df2727" : "#799a61") )
+        setGaugeColor( (metabolicRatesTodayData?.kcalToday > props.metabolicRate ? "#df2727" : "#799a61") )
+    }
+
+    useEffect(macronutrients, [metabolicRatesTodayData])
+
+    if (!metabolicRatesTodayData && props.appUser) {
+        return <p>Daten werden geladen...</p>
+    }
 
     return (
     <div className={"col-12 box1 pt-2"}>
@@ -124,7 +142,7 @@ export default function NerdMealsToday(props: Readonly<Props>) {
 
             <div className={"col-12"}>
                 <ListItemButton component="a"  sx={{color: '#f68247', textAlign: 'center'}} onClick={ () =>
-                    navigate("/user/new")
+                    navigate("/meal/overview")
                 }>
                     <ListItemText primary="Details anzeigen"  />
                 </ListItemButton>

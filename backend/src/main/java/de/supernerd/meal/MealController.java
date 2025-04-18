@@ -2,14 +2,12 @@ package de.supernerd.meal;
 
 import de.supernerd.meal.models.DailyMeal;
 import de.supernerd.meal.models.Meals;
-import de.supernerd.meal.request_dto.DailyMealNewRequestDto;
-import de.supernerd.meal.request_dto.DailyMealResponseDto;
-import de.supernerd.meal.request_dto.DailyMealsTodayResponseDto;
-import de.supernerd.meal.request_dto.MealByBarcodeResponseDto;
+import de.supernerd.meal.request_dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -55,7 +53,8 @@ public class MealController {
     @GetMapping("/today/{userid}")
     public ResponseEntity<DailyMealsTodayResponseDto> mealsToday(@PathVariable String userid) {
         try {
-            return ResponseEntity.ok(mealService.getMealsByUserId(userid));
+            DailyMealsTodayResponseDto dto = mealService.getMealsByUserId(userid);
+            return ResponseEntity.ok(dto);
         } catch(Exception ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -70,8 +69,29 @@ public class MealController {
         return dailyMealDto;
     }
 
-    @DeleteMapping("/delete/{mealTodayId}")
-    public void deleteMeal(@PathVariable String mealTodayId) {
+    @DeleteMapping("/delete/{dailyMealId}")
+    public void deleteMeal(@PathVariable String dailyMealId) {
+        mealService.deleteMealById(dailyMealId);
+    }
 
+    @GetMapping("/overview/today")
+    public List<DailyMealOverviewResponseDto> getDailyMealsOverview() {
+        LocalDate today = LocalDate.now();
+        List<DailyMeal> dailyMeals = mealService.getDailyMealsList(today);
+
+        return dailyMeals.stream()
+                .map(meal -> {
+                    Meals correspondingMeal = mealService.getMealById(meal.mealsId());
+                    String mealName = correspondingMeal != null ? correspondingMeal.name() : "Unbekannt";
+
+                    return new DailyMealOverviewResponseDto(
+                            meal.id(),
+                            meal.datetime(),
+                            mealName,
+                            meal.fat(),
+                            meal.carbohydrates(),
+                            meal.protein()
+                    );
+                }).toList();
     }
 }

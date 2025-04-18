@@ -1,7 +1,6 @@
 package de.supernerd.meal;
 
 import de.supernerd.auth.AuthAppUser;
-import de.supernerd.auth.CustomOAuth2UserService;
 import de.supernerd.meal.models.DailyMeal;
 import de.supernerd.meal.models.Meals;
 import de.supernerd.meal.repository.DailyMealRepository;
@@ -11,10 +10,8 @@ import de.supernerd.meal.request_dto.DailyMealsTodayResponseDto;
 import de.supernerd.utils.Birthday;
 import de.supernerd.utils.MetabolismUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.io.Console;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +57,7 @@ public class MealService {
         List<DailyMeal> mealsList = dailyMealRepository.findAllByUserId(userId);
 
         List<String> catalogIds = mealsList.stream()
-                .map(DailyMeal::mealCatalogId)
+                .map(DailyMeal::mealsId)
                 .distinct()
                 .toList();
 
@@ -72,8 +69,8 @@ public class MealService {
                 .map(meal -> new DailyMealResponseDto(
                         meal.id(),
                         meal.userId(),
-                        meal.mealCatalogId(),
-                        catalogMap.get(meal.mealCatalogId()),
+                        meal.mealsId(),
+                        catalogMap.get(meal.mealsId()),
                         meal.datetime()
                 ))
                 .toList();
@@ -112,5 +109,24 @@ public class MealService {
         return new DailyMealsTodayResponseDto(totalFat, maxFatRate, (totalFat*100/maxFatRate),
                 totalCarbohydrates, maxMetabolicRate, (totalCarbohydrates*100/maxMetabolicRate),
                 totalProtein, maxProteinRate, (totalProtein*100/maxProteinRate), kcalToday);
+    }
+
+    public List<DailyMeal> getDailyMealsList(LocalDate date) {
+        AuthAppUser currentUser = (AuthAppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<DailyMeal> dailyMeals = dailyMealRepository.findAllByUserId(currentUser.getId());
+
+        return dailyMeals.stream().filter(dailyMeal -> dailyMeal.datetime().toLocalDate().equals(date)).toList();
+    }
+
+    public Meals getMealById(String id)   {
+        try {
+            return mealsRepository.findById(id).orElseThrow( () -> new NoSuchElementException("No meals with id " + id) );
+        } catch(NoSuchElementException ex) {
+            throw new NoSuchElementException("No meals with id " + id);
+        }
+    }
+
+    public void deleteMealById(String id) {
+        dailyMealRepository.deleteById(id);
     }
 }

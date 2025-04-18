@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .sessionManagement(s->
                         s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
+                .formLogin(f -> f.loginPage(appUrl + "/login").permitAll())
                 .logout(l -> l.logoutSuccessUrl(appUrl))
                 .oauth2Login(o -> o.defaultSuccessUrl(appUrl))
                 .exceptionHandling(e -> e
