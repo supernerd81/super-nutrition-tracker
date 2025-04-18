@@ -6,6 +6,7 @@ import de.supernerd.meal.request_dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,14 +18,6 @@ public class MealController {
     private final MealService mealService;
 
     public MealController(MealService mealService) { this.mealService = mealService; }
-
-    @GetMapping("/all")
-    public String getAllMeals() {
-
-        //196103614
-        mealService.getMealsByUserId("196103614");
-        return "";
-    }
 
     @GetMapping("/{userid}")
     public List<DailyMealResponseDto> getMealById(@PathVariable String userid) {
@@ -60,13 +53,19 @@ public class MealController {
         }
     }
 
-    @PutMapping("/update")
-    public DailyMealNewRequestDto updateMeal(DailyMealNewRequestDto dailyMealDto) {
+    @PutMapping("/update/{dailymealid}")
+    public DailyMealOverviewResponseDto updateMeal(@PathVariable String dailymealid, @RequestBody DailyMealUpdateRequestDto dailyMealUpdate) {
 
-        //MealsSaveDto mealCatalogSave = new MealsSaveDto(dailyMealDto.barcode(), dailyMealDto.mealName(), dailyMealDto.protein(), dailyMealDto.carbohydrates(), dailyMealDto.fat());
+        if(!dailymealid.equals(dailyMealUpdate.id())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The id in the url does not match the request body's id");
+        }
 
+        DailyMeal updateDailyMeal = mealService.updateDailyMeal(new DailyMeal(dailyMealUpdate.id(), dailyMealUpdate.userId(), dailyMealUpdate.mealsId(), dailyMealUpdate.dateTime(), dailyMealUpdate.protein(), dailyMealUpdate.carbohydrates(), dailyMealUpdate.fat()));
 
-        return dailyMealDto;
+        Meals correspondingMeal = mealService.getMealById(updateDailyMeal.mealsId());
+        String mealName = correspondingMeal != null ? correspondingMeal.name() : "Unbekannt";
+
+        return new DailyMealOverviewResponseDto(updateDailyMeal.id(), updateDailyMeal.userId(), updateDailyMeal.mealsId(), updateDailyMeal.datetime(), mealName, updateDailyMeal.fat(), updateDailyMeal.carbohydrates(), updateDailyMeal.protein());
     }
 
     @DeleteMapping("/delete/{dailyMealId}")
@@ -86,6 +85,8 @@ public class MealController {
 
                     return new DailyMealOverviewResponseDto(
                             meal.id(),
+                            meal.userId(),
+                            meal.mealsId(),
                             meal.datetime(),
                             mealName,
                             meal.fat(),

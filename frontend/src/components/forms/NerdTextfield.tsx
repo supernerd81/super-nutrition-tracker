@@ -11,7 +11,7 @@ type Props = {
     required?: boolean | undefined
     endAdorment?: string | null
     value?: string | null
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void,
     name: string,
     type: string
@@ -26,7 +26,7 @@ export default function NerdTextfield(props: Readonly<Props>) {
             label={props.label}
             name={props.name}
             onChange={props.onChange}
-            onBlur={props.onBlur ? props.onBlur : undefined}
+            onBlur={props.onBlur ?? undefined}
             InputProps={{
                 endAdornment: props.endAdorment ? (
                     <InputAdornment position="end">{props.endAdorment}</InputAdornment>

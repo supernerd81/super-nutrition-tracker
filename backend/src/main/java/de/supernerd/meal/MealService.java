@@ -9,8 +9,10 @@ import de.supernerd.meal.request_dto.DailyMealResponseDto;
 import de.supernerd.meal.request_dto.DailyMealsTodayResponseDto;
 import de.supernerd.utils.Birthday;
 import de.supernerd.utils.MetabolismUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -47,10 +49,6 @@ public class MealService {
         }
 
         return mealsRepository.save(meals);
-    }
-
-    public DailyMeal deleteMeal(DailyMeal dailyMeal) {
-        return new DailyMeal("", "", "", null, 0, 0, 0);
     }
 
     public List<DailyMealResponseDto> getAllMealsByUserId(String userId) {
@@ -122,11 +120,15 @@ public class MealService {
         try {
             return mealsRepository.findById(id).orElseThrow( () -> new NoSuchElementException("No meals with id " + id) );
         } catch(NoSuchElementException ex) {
-            throw new NoSuchElementException("No meals with id " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No meals with id " + id);
         }
     }
 
     public void deleteMealById(String id) {
         dailyMealRepository.deleteById(id);
+    }
+
+    public DailyMeal updateDailyMeal(DailyMeal dailyMeal) {
+        return dailyMealRepository.save(dailyMeal);
     }
 }
