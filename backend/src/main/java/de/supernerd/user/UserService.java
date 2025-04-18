@@ -20,7 +20,7 @@ public class UserService {
 //        String uuid = UUID.randomUUID().toString();
 //        AppUserUpdate userToSave = user.withId(uuid);
 
-        return userRepository.save(user);
+            return userRepository.save(user);
     }
 
     public AppUserUpdate getById(String id) {

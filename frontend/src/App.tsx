@@ -10,6 +10,7 @@ import UpdateProfile from "./components/sites/UpdateProfile.tsx";
 import axios from 'axios';
 import ProtectedRoutes from "./components/ProtectedRoutes.tsx";
 import {AppUser} from "./components/model/AppUser.ts";
+import MealOverviewSite from "./components/sites/MealOverviewSite.tsx";
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
@@ -41,8 +42,8 @@ function App() {
               <Route path={"/"} element={ <HomeSite appUser={ appUser }  /> } />
 
               <Route element={<ProtectedRoutes appUser={appUser} />} >
-                  <Route path={"/meal/new"} element={ <NewMealSite /> } />
-                  <Route path={"/meal/change/%id%"} element={ <NewMealSite /> } />
+                  <Route path={"/meal/new"} element={ <NewMealSite appUser={appUser} /> } />
+                  <Route path={"/meal/overview"} element={ <MealOverviewSite appUser={appUser}/> } />
                   <Route path={"/user/new"} element={ <UpdateProfile appUser={appUser} setAppUser={setAppUser}/> } />
               </Route>
           </Routes>

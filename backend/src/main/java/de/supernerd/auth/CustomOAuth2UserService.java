@@ -8,12 +8,13 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-    private final AuthAppUserRepository userRepository;
     private final AuthAppUserRepository authAppUserRepository;
 
     @Override
@@ -26,9 +27,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private AuthAppUser saveUser(OAuth2User oAuth2User) {
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        LocalDate birthday = null;
+        if (attributes.containsKey("birthday")) {
+            birthday = LocalDate.parse(attributes.get("birthday").toString());
+        }
+
         return authAppUserRepository.save(AuthAppUser.builder()
                 .id(oAuth2User.getName())
                 .username(oAuth2User.getAttributes().get("login").toString())
+                .birthday(birthday)
                 .role(AuthAppUserRoles.USER)
                 .build()
         );

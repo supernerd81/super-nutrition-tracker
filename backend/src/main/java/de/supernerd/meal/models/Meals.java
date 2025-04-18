@@ -1,12 +1,12 @@
-package de.supernerd.meal;
+package de.supernerd.meal.models;
 
 import lombok.With;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("meal_catalog")
+@Document("Meals")
 @With
-public record MealCatalog(
+public record Meals(
     @Id
     String id,
     String barcode,

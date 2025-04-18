@@ -30,6 +30,12 @@ body {
   background-color: var(--background-color1);
 }
 
+body, html, div {
+  color: var(--fontcolor2)
+}
+
+
+
 .container {
   box-shadow: 8px 8px 15px var(--background-color2);
   width:100%;
@@ -103,8 +109,12 @@ body {
 .box1 {
   box-shadow: 2px -4px 10px var(--background-color1);
   border-radius: 10px;
-  height: 400px;
+  min-height: 400px;
 
+}
+
+div.css-tlelie-MuiListItemText-root, .css-tjvwag-MuiTypography-root {
+  color: var(--specialcolor) !important
 }
 
 .footer-container {

@@ -14,13 +14,14 @@ import NerdSelectField from "./NerdSelectField.tsx";
 import {AppUser} from "../model/AppUser.ts";
 import axios from "axios";
 import Loader from "../utils/Loader.tsx";
+import NerdSnackbar from "./NerdSnackbar.tsx";
 
 type Props = {
     appUser: AppUser | undefined | null
     setAppUser: React.Dispatch<React.SetStateAction<AppUser | null | undefined>>
 }
 
-export default function UpdateProfileForm(props: Props) {
+export default function UpdateProfileForm(props: Readonly<Props>) {
 
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
     const [error, setError] = useState(false);
@@ -36,6 +37,10 @@ export default function UpdateProfileForm(props: Props) {
         birthday: props.appUser?.birthday ?? "",
 
     })
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success")
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         const {name, value} =  event.target
@@ -62,7 +67,7 @@ export default function UpdateProfileForm(props: Props) {
         setIsLoading(false)
 
         if (!selectedDate) {
-            setError(true) // Fehler anzeigen, wenn kein Datum gewählt wurde
+            setError(true)
             setIsLoading(true)
         } else {
             setError(false)
@@ -79,13 +84,16 @@ export default function UpdateProfileForm(props: Props) {
                     height: profileData.userheight
                 });
 
-                // 👇 Hier kommt dein neuer AppUser rein
                 console.log(response.data)
                 props.setAppUser(response.data);
-
+                setSnackbarMessage("Speichern erfolgreich!");
+                setSnackbarSeverity("success");
+                setOpenSnackbar(true);
             } catch (error) {
                 console.error("Fehler beim Aktualisieren des Profils:", error);
-                // Optional: Fehler anzeigen
+                setSnackbarMessage("Fehler beim Speichern. Bitte versuche es später erneut.")
+                setSnackbarSeverity("success")
+                setOpenSnackbar(true)
             } finally {
                 setIsLoading(true)
             }
@@ -105,12 +113,20 @@ export default function UpdateProfileForm(props: Props) {
             sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "flex-start", // Links ausrichten
-                width: "650px", // Formularbreite
-                margin: "auto", // Ganze Box zentrieren
+                alignItems: "flex-start",
+                width: "650px",
+                margin: "auto",
             }}
             className={"mt-5 "}
         >
+
+            <NerdSnackbar
+                openSnackbar={openSnackbar}
+                setOpenSnackbar={setOpenSnackbar}
+                snackbarMessage={snackbarMessage}
+                snackbarSeverity={snackbarSeverity}
+            />
+
             <Typography
             variant="h6"
             sx={{
@@ -141,14 +157,14 @@ export default function UpdateProfileForm(props: Props) {
                         textField: {
                             variant: "standard",
                             fullWidth: true,
-                            error: error, // Fehlerzustand setzen
+                            error: error,
                             helperText: error ? "Bitte ein Datum auswählen!" : "",
                             sx: {
                                 width: "300px !important",
                                 marginRight: "20px",
-                                "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe
-                                "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" }, // Fokus-Farbe
-                                "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" }, // Label-Farbe bei Fokus
+                                "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" },
+                                "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" },
+                                "& .MuiInputLabel-root.Mui-focused": { color: "#f68247" },
                             },
                         },
                     }}
