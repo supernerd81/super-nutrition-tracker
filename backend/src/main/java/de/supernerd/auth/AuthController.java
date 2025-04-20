@@ -24,7 +24,7 @@ public class AuthController {
             }
             appUser.setGender(Gender.valueOf(gender));
 
-            appUser.setMetabolicRate(MetabolismUtils.calculateBasalMetabolicRate( age, appUser.getHeight(), appUser.getWeight(), gender ));
+            appUser.setMetabolicRate(MetabolismUtils.calculateBasalMetabolicRate( age, appUser.getWeight(), appUser.getHeight(), gender ));
             appUser.setAge(age);
             return appUser;
         } else {
