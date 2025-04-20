@@ -54,6 +54,10 @@ public class MealService {
     public List<DailyMealResponseDto> getAllMealsByUserId(String userId) {
         List<DailyMeal> mealsList = dailyMealRepository.findAllByUserId(userId);
 
+        if(mealsList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no meals found with this userid");
+        }
+
         List<String> catalogIds = mealsList.stream()
                 .map(DailyMeal::mealsId)
                 .distinct()
@@ -109,9 +113,14 @@ public class MealService {
                 totalProtein, maxProteinRate, (totalProtein*100/maxProteinRate), kcalToday);
     }
 
-    public List<DailyMeal> getDailyMealsList(LocalDate date) {
+    public List<DailyMeal> getDailyMealsList(LocalDate date) throws NullPointerException {
+
         AuthAppUser currentUser = (AuthAppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<DailyMeal> dailyMeals = dailyMealRepository.findAllByUserId(currentUser.getId());
+
+        if(dailyMeals.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no meals available");
+        }
 
         return dailyMeals.stream().filter(dailyMeal -> dailyMeal.datetime().toLocalDate().equals(date)).toList();
     }
@@ -124,7 +133,10 @@ public class MealService {
         }
     }
 
-    public void deleteMealById(String id) {
+    public void deleteMealById(String id) throws ResponseStatusException {
+
+        if(!dailyMealRepository.existsById(id)) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no daily meals found with this id");}
+
         dailyMealRepository.deleteById(id);
     }
 

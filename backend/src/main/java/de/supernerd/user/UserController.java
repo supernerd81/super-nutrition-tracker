@@ -27,7 +27,7 @@ public class UserController {
 
         try {
             AppUserUpdate user = userService.getById(id);
-            return new ResponseUserWithAgeDto(user.id(), "user.userid()", user.firstname(), user.lastname(), user.birthday(), Birthday.getAge(user.birthday()), user.weight(), user.height(), user.gender(), MetabolismUtils.calculateBasalMetabolicRate(Birthday.getAge(user.birthday()), user.weight(), user.height(), user.gender().getDisplayName()));
+            return new ResponseUserWithAgeDto(user.id(), user.userid(), user.firstname(), user.lastname(), user.birthday(), Birthday.getAge(user.birthday()), user.weight(), user.height(), user.gender(), MetabolismUtils.calculateBasalMetabolicRate(Birthday.getAge(user.birthday()), user.weight(), user.height(), user.gender().getDisplayName()));
         } catch(NoSuchElementException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }
