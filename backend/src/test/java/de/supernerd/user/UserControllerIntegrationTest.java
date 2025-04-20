@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,7 +36,7 @@ class UserControllerIntegrationTest {
     void getUserById_NerdUserExists() throws Exception {
 
         //GIVEN
-        AppUserUpdate existingUser = new AppUserUpdate( "196103614", "22","Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183, Gender.MALE);
+        AppUserUpdate existingUser = new AppUserUpdate( "5545", "196103614","Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183, Gender.MALE);
         userRepository.save(existingUser);
 
         //WHEN
@@ -50,7 +50,7 @@ class UserControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                     {
-                      "id": "12345",
+                      "id": "5545",
                       "userid": "196103614",
                       "firstname": "Manuel",
                       "lastname": "Simon",
@@ -63,7 +63,7 @@ class UserControllerIntegrationTest {
 
     @Test
     @DirtiesContext
-    void getUserByid_userDoesNotExist() throws Exception {
+    void getUserById_userDoesNotExist() throws Exception {
         //GIVEN
         AppUserUpdate existingUser = new AppUserUpdate("196103614", "22", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183, Gender.MALE);
         userRepository.save(existingUser);
@@ -83,18 +83,13 @@ class UserControllerIntegrationTest {
 
     @Test
     @DirtiesContext
-    void newUser_newUserCreated() throws Exception {
+    void updateUser_userExists() throws Exception {
         //GIVEN
+        AppUserUpdate existingUser = new AppUserUpdate("196103614", "196103614", "Manuel", "Simon", LocalDate.of(1981, 8, 11), 95, 183, Gender.MALE);
+        userRepository.save(existingUser);
 
         //WHEN
-        mockMvc.perform(get("/api/user/12345")
-                        .with(oidcLogin().userInfoToken(token -> token
-                                .claim("login", "testUser")
-                                .claim("avatar_url", "testAvatarUrl")
-                        )))
-                        .andExpect(status().isNotFound());
-
-        String saveResult = mockMvc.perform(post("/api/user/new")
+        String saveResult = mockMvc.perform(put("/api/user/update/196103614")
                         .with(oidcLogin().userInfoToken(token -> token
                                 .claim("login", "testUser")
                                 .claim("avatar_url", "testAvatarUrl")
@@ -102,12 +97,16 @@ class UserControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                           {
+                              "id": "196103614",
+                              "userId": "196103614",
                               "firstname": "Manuel",
                               "lastname": "Simon",
                               "birthday": "1981-08-11",
+                              "age": 22,
                               "weight": 95,
                               "height": 183,
-                              "gender": "MALE"
+                              "gender": "MALE",
+                              "metabolicRate": 2200
                             }
                           """))
                 .andReturn()
@@ -115,7 +114,7 @@ class UserControllerIntegrationTest {
                 .getContentAsString();
 
         //THEN
-        AppUserUpdate actualUser = objectMapper.readValue(saveResult, AppUserUpdate.class);
+        ResponseUserWithAgeDto actualUser = objectMapper.readValue(saveResult, ResponseUserWithAgeDto.class);
         assertThat(actualUser.id())
                 .isNotBlank();
 

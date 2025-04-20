@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public record DailyMealResponseDto(
          String id,
         String userId,
-        String mealCatalogId,
+        String mealsId,
         Meals meals,
         LocalDateTime datetime
 ) {

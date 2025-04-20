@@ -2,14 +2,13 @@ package de.supernerd.meal.request_dto;
 
 import java.time.LocalDateTime;
 
-public record DailyMealOverviewResponseDto(
+public record DailyMealUpdateRequestDto(
         String id,
         String userId,
         String mealsId,
         LocalDateTime dateTime,
-        String name,
-        int fat,
+        int protein,
         int carbohydrates,
-        int protein
+        int fat
 ) {
 }

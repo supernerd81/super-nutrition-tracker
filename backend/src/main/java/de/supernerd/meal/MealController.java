@@ -3,9 +3,11 @@ package de.supernerd.meal;
 import de.supernerd.meal.models.DailyMeal;
 import de.supernerd.meal.models.Meals;
 import de.supernerd.meal.request_dto.*;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,18 +20,13 @@ public class MealController {
 
     public MealController(MealService mealService) { this.mealService = mealService; }
 
-    @GetMapping("/all")
-    public String getAllMeals() {
-
-        //196103614
-        mealService.getMealsByUserId("196103614");
-        return "";
-    }
-
     @GetMapping("/{userid}")
-    public List<DailyMealResponseDto> getMealById(@PathVariable String userid) {
-
-        return mealService.getAllMealsByUserId(userid);
+    public List<DailyMealResponseDto> getDailyMealById(@PathVariable String userid) {
+        try {
+            return mealService.getAllMealsByUserId(userid);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no meals found with this userid");
+        }
     }
 
     @PostMapping("/new")
@@ -60,38 +57,58 @@ public class MealController {
         }
     }
 
-    @PutMapping("/update")
-    public DailyMealNewRequestDto updateMeal(DailyMealNewRequestDto dailyMealDto) {
+    @PutMapping("/update/{dailymealid}")
+    public DailyMealOverviewResponseDto updateMeal(@PathVariable String dailymealid, @RequestBody DailyMealUpdateRequestDto dailyMealUpdate) {
 
-        //MealsSaveDto mealCatalogSave = new MealsSaveDto(dailyMealDto.barcode(), dailyMealDto.mealName(), dailyMealDto.protein(), dailyMealDto.carbohydrates(), dailyMealDto.fat());
+        if(!dailymealid.equals(dailyMealUpdate.id())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The id in the url does not match the request body's id");
+        }
 
+        try {
+            DailyMeal updateDailyMeal = mealService.updateDailyMeal(new DailyMeal(dailyMealUpdate.id(), dailyMealUpdate.userId(), dailyMealUpdate.mealsId(), dailyMealUpdate.dateTime(), dailyMealUpdate.protein(), dailyMealUpdate.carbohydrates(), dailyMealUpdate.fat()));
 
-        return dailyMealDto;
+            Meals correspondingMeal = mealService.getMealById(updateDailyMeal.mealsId());
+            String mealName = correspondingMeal != null ? correspondingMeal.name() : "Unbekannt";
+
+            return new DailyMealOverviewResponseDto(updateDailyMeal.id(), updateDailyMeal.userId(), updateDailyMeal.mealsId(), updateDailyMeal.datetime(), mealName, updateDailyMeal.fat(), updateDailyMeal.carbohydrates(), updateDailyMeal.protein());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no meals found with this id");
+        }
     }
 
     @DeleteMapping("/delete/{dailyMealId}")
-    public void deleteMeal(@PathVariable String dailyMealId) {
-        mealService.deleteMealById(dailyMealId);
+    public void deleteDailyMeal(@PathVariable String dailyMealId) {
+        try {
+            mealService.deleteMealById(dailyMealId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no daily meals found with this id");
+        }
     }
 
     @GetMapping("/overview/today")
     public List<DailyMealOverviewResponseDto> getDailyMealsOverview() {
-        LocalDate today = LocalDate.now();
-        List<DailyMeal> dailyMeals = mealService.getDailyMealsList(today);
+        try {
+            LocalDate today = LocalDate.now();
+            List<DailyMeal> dailyMeals = mealService.getDailyMealsList(today);
 
-        return dailyMeals.stream()
-                .map(meal -> {
-                    Meals correspondingMeal = mealService.getMealById(meal.mealsId());
-                    String mealName = correspondingMeal != null ? correspondingMeal.name() : "Unbekannt";
+            return dailyMeals.stream()
+                    .map(meal -> {
+                        Meals correspondingMeal = mealService.getMealById(meal.mealsId());
+                        String mealName = correspondingMeal != null ? correspondingMeal.name() : "Unbekannt";
 
-                    return new DailyMealOverviewResponseDto(
-                            meal.id(),
-                            meal.datetime(),
-                            mealName,
-                            meal.fat(),
-                            meal.carbohydrates(),
-                            meal.protein()
-                    );
-                }).toList();
+                        return new DailyMealOverviewResponseDto(
+                                meal.id(),
+                                meal.userId(),
+                                meal.mealsId(),
+                                meal.datetime(),
+                                mealName,
+                                meal.fat(),
+                                meal.carbohydrates(),
+                                meal.protein()
+                        );
+                    }).toList();
+        } catch(NullPointerException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no valid date specified");
+        }
     }
 }

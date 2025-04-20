@@ -18,8 +18,6 @@ type Props = {
     appUser: AppUser | undefined | null
 }
 
-
-
 export default function MealOverviewSite(props: Readonly<Props>) {
     const [rows, setRows] = React.useState<MealOverviewData[]>([]);
 
@@ -55,22 +53,43 @@ export default function MealOverviewSite(props: Readonly<Props>) {
     const [selectedDateTime, setSelectedDateTime] = useState<Dayjs | null>(dayjs())
     const [error, setError] = useState(false);
 
+
+    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = event.target;
+
+        setEditingRow((prevData) => {
+            if (!prevData) return prevData; // oder eventuell ein leeres Objekt zurückgeben?
+            return {
+                ...prevData,
+                [name]: value,
+            };
+        });
+    }
+
     const handleEdit = (id: string) => {
         const row = rows.find(r => r.id === id);
         if (row) {
             setEditingRow(row);
             setSelectedDateTime(row.dateTime ? dayjs(row.dateTime) : dayjs())
+
             console.log(row)
         }
     };
 
     const handleEditSave = () => {
         if (editingRow) {
-            // const updatedRow = { ...editingRow, name: editName };
-            // setRows(prev =>
-            //     prev.map(r => (r.id === updatedRow.id ? updatedRow : r))
-            // );
-            // setEditingRow(null);
+
+            axios.put(`/api/meal/update/${editingRow.id}`, editingRow)
+                .then(r => {
+                    fetchDailyMealData()
+
+                    setEditingRow(null);
+                    console.log(r.data)
+                })
+                .catch(e => {
+                    console.error('Error updating Meal: ', e)
+                }
+                )
         }
     };
 
@@ -121,15 +140,23 @@ export default function MealOverviewSite(props: Readonly<Props>) {
             <Dialog open={!!editingRow} onClose={handleEditCancel}>
                 <DialogTitle>Mahlzeit bearbeiten</DialogTitle>
                 <DialogContent>
-                        <NerdTextfield id={"mealName"} onChange={handleEditCancel} name={"mealName"} type={"text"}   label={"Mahlzeit- / Produktname"} defaultValue={""} variant={"standard"} fieldWidth={"530px !important"} marginRight={"20px"} required={true} value={editingRow ? editingRow.name : ""} />
+                        <NerdTextfield id={"mealName"} name={"mealName"} type={"text"}   label={"Mahlzeit- / Produktname"} defaultValue={""} variant={"standard"} fieldWidth={"530px !important"} marginRight={"20px"} required={true} value={editingRow ? editingRow.name : ""} />
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
                     name={"dateTime"}
                     label="Datum & Uhrzeit *"
                     value={selectedDateTime}
                     onChange={(newValue: Dayjs | null) => {
-                    setSelectedDateTime(newValue);
-                    setError(!newValue);
+                    setSelectedDateTime(newValue)
+                    setError(!newValue)
+
+                        setEditingRow(prev => {
+                            if (!prev || !newValue) return prev;
+                            return {
+                                ...prev,
+                                dateTime: newValue.format("YYYY-MM-DDTHH:mm:ss")
+                            }
+                        });
                     }}
                     format="DD.MM.YYYY HH:mm"
                     slotProps={{
@@ -162,9 +189,9 @@ export default function MealOverviewSite(props: Readonly<Props>) {
                     />
                 </LocalizationProvider>
 
-        <NerdTextfield id={"protein"} onChange={handleEditCancel} name={"protein"} type={"number"} label={"Protein"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} endAdorment={"g"} required={true} value={ editingRow ? editingRow.protein.toString() : ""} />
-        <NerdTextfield id={"carbohydrates"} onChange={handleEditCancel} name={"carbohydrates"} type={"number"} label={"Kohlenhydrate"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} required={true} endAdorment={"g"} value={ editingRow ? editingRow.carbohydrates.toString(): "" } />
-        <NerdTextfield id={"fat"} name={"fat"} onChange={handleEditCancel} type={"number"} label={"Fett"} defaultValue={""} variant={"standard"} fieldWidth={"200px !important"} marginRight={""} required={true} endAdorment={"g"} value={editingRow ? editingRow.fat.toString() : ""} />
+        <NerdTextfield id={"protein"} onChange={handleInputChange} name={"protein"} type={"number"} label={"Protein"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} endAdorment={"g"} required={true} value={ editingRow ? editingRow.protein.toString() : ""} />
+        <NerdTextfield id={"carbohydrates"} onChange={handleInputChange} name={"carbohydrates"} type={"number"} label={"Kohlenhydrate"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} required={true} endAdorment={"g"} value={ editingRow ? editingRow.carbohydrates.toString(): "" } />
+        <NerdTextfield id={"fat"} name={"fat"} onChange={handleInputChange} type={"number"} label={"Fett"} defaultValue={""} variant={"standard"} fieldWidth={"200px !important"} marginRight={""} required={true} endAdorment={"g"} value={editingRow ? editingRow.fat.toString() : ""} />
 
                 </DialogContent>
                 <DialogActions>

@@ -19,7 +19,7 @@ public class UserController {
     @PutMapping("/update/{userId}")
     public ResponseUserDto updateUser(@RequestBody UpdateUserDto updateUser, @PathVariable String userId) {
         AppUserUpdate savedUser = userService.saveUser(new AppUserUpdate(userId, userId, updateUser.firstname(), updateUser.lastname(), updateUser.birthday(), updateUser.weight(), updateUser.height(), updateUser.gender()));
-        return new ResponseUserDto(userId, userId, savedUser.firstname(), savedUser.lastname(), savedUser.birthday(), Birthday.getAge(savedUser.birthday()), savedUser.weight(), savedUser.height(), savedUser.gender(), MetabolismUtils.calculateBasalMetabolicRate(Birthday.getAge(savedUser.birthday()), savedUser.weight(), savedUser.height(), savedUser.gender().getDisplayName()));
+        return new ResponseUserDto(userId, userId, savedUser.firstname(), savedUser.lastname(), savedUser.birthday(), Birthday.getAge(savedUser.birthday()), savedUser.weight(), savedUser.height(), savedUser.gender(), MetabolismUtils.calculateBasalMetabolicRate(Birthday.getAge(savedUser.birthday()), savedUser.weight(), savedUser.height(), savedUser.gender().toString()));
     }
 
     @GetMapping("/{id}")
@@ -27,7 +27,7 @@ public class UserController {
 
         try {
             AppUserUpdate user = userService.getById(id);
-            return new ResponseUserWithAgeDto(user.id(), "user.userid()", user.firstname(), user.lastname(), user.birthday(), Birthday.getAge(user.birthday()), user.weight(), user.height(), user.gender(), MetabolismUtils.calculateBasalMetabolicRate(Birthday.getAge(user.birthday()), user.weight(), user.height(), user.gender().getDisplayName()));
+            return new ResponseUserWithAgeDto(user.id(), user.userid(), user.firstname(), user.lastname(), user.birthday(), Birthday.getAge(user.birthday()), user.weight(), user.height(), user.gender(), MetabolismUtils.calculateBasalMetabolicRate(Birthday.getAge(user.birthday()), user.weight(), user.height(), user.gender().getDisplayName()));
         } catch(NoSuchElementException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }

@@ -9,8 +9,10 @@ import de.supernerd.meal.request_dto.DailyMealResponseDto;
 import de.supernerd.meal.request_dto.DailyMealsTodayResponseDto;
 import de.supernerd.utils.Birthday;
 import de.supernerd.utils.MetabolismUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -49,12 +51,12 @@ public class MealService {
         return mealsRepository.save(meals);
     }
 
-    public DailyMeal deleteMeal(DailyMeal dailyMeal) {
-        return new DailyMeal("", "", "", null, 0, 0, 0);
-    }
-
     public List<DailyMealResponseDto> getAllMealsByUserId(String userId) {
         List<DailyMeal> mealsList = dailyMealRepository.findAllByUserId(userId);
+
+        if(mealsList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no meals found with this userid");
+        }
 
         List<String> catalogIds = mealsList.stream()
                 .map(DailyMeal::mealsId)
@@ -111,9 +113,14 @@ public class MealService {
                 totalProtein, maxProteinRate, (totalProtein*100/maxProteinRate), kcalToday);
     }
 
-    public List<DailyMeal> getDailyMealsList(LocalDate date) {
+    public List<DailyMeal> getDailyMealsList(LocalDate date) throws NullPointerException {
+
         AuthAppUser currentUser = (AuthAppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<DailyMeal> dailyMeals = dailyMealRepository.findAllByUserId(currentUser.getId());
+
+        if(dailyMeals.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no meals available");
+        }
 
         return dailyMeals.stream().filter(dailyMeal -> dailyMeal.datetime().toLocalDate().equals(date)).toList();
     }
@@ -122,11 +129,18 @@ public class MealService {
         try {
             return mealsRepository.findById(id).orElseThrow( () -> new NoSuchElementException("No meals with id " + id) );
         } catch(NoSuchElementException ex) {
-            throw new NoSuchElementException("No meals with id " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No meals with id " + id);
         }
     }
 
-    public void deleteMealById(String id) {
+    public void deleteMealById(String id) throws ResponseStatusException {
+
+        if(!dailyMealRepository.existsById(id)) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no daily meals found with this id");}
+
         dailyMealRepository.deleteById(id);
+    }
+
+    public DailyMeal updateDailyMeal(DailyMeal dailyMeal) {
+        return dailyMealRepository.save(dailyMeal);
     }
 }
