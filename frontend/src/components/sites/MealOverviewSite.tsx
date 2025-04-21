@@ -34,13 +34,13 @@ export default function MealOverviewSite(props: Readonly<Props>) {
     }
 
     useEffect(() => {
-        fetchDailyMealData()
+        fetchDailyMealData().then(r => console.log(r))
     }, [props.appUser]);
 
     const handleDelete = (id: string) => {
         axios.delete(`/api/meal/delete/${id}`)
             .then(r => {
-                fetchDailyMealData()
+                fetchDailyMealData().then(r => console.log(r))
                 console.log(r.data)
             })
             .catch(e => {
@@ -81,7 +81,7 @@ export default function MealOverviewSite(props: Readonly<Props>) {
 
             axios.put(`/api/meal/update/${editingRow.id}`, editingRow)
                 .then(r => {
-                    fetchDailyMealData()
+                    fetchDailyMealData().then(r => console.log(r))
 
                     setEditingRow(null);
                     console.log(r.data)
