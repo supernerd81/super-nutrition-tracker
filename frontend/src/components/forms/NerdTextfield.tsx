@@ -26,6 +26,7 @@ export default function NerdTextfield(props: Readonly<Props>) {
             label={props.label}
             name={props.name}
             onChange={props.onChange}
+            className={"nerd-textfield"}
             onBlur={props.onBlur ?? undefined}
             InputProps={{
                 endAdornment: props.endAdorment ? (
@@ -36,6 +37,8 @@ export default function NerdTextfield(props: Readonly<Props>) {
             variant={props.variant}
             type={props.type}
             sx={ {
+                maxWidth: "100% !important",
+                marginBottom: "10px",
                 width: props.fieldWidth,
                 marginRight: props.marginRight,
                 "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" }, // Hover-Farbe

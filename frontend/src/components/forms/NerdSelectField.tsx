@@ -13,7 +13,7 @@ type Props = {
 
 export default function NerdSelectField(props: Readonly<Props>) {
 
-    return (<FormControl variant={ props.variant } sx={{
+    return (<FormControl variant={ props.variant }  className={"nerd-textfield"} sx={{
         width: props.fieldWidth,
         textAlign: "left",
         "& .MuiInputLabel-root": {
@@ -25,6 +25,7 @@ export default function NerdSelectField(props: Readonly<Props>) {
     }}>
     <InputLabel id={ props.labelId }>Gender</InputLabel>
         <Select
+            className={"nerd-textfield"}
             labelId={ props.labelId}
             id={ props.id }
             value={props.value}

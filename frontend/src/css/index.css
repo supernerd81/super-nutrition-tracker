@@ -117,10 +117,6 @@ div.css-tlelie-MuiListItemText-root, .css-tjvwag-MuiTypography-root {
   color: var(--specialcolor) !important
 }
 
-.footer-container {
-
-}
-
 .footer-left {
   background-image: url("../images/vegetablebowl.png");
   background-repeat: no-repeat;
@@ -129,3 +125,16 @@ div.css-tlelie-MuiListItemText-root, .css-tjvwag-MuiTypography-root {
   height: 200px;
 }
 
+@media only screen and (max-width: 994px) {
+  .header-container {
+    min-height: 600px;
+  }
+
+  .nerd-textfield, .nerdsfiledcontainer {
+    width: 100% !important;
+    margin-bottom: 20px;
+    margin-right: 0;
+  }
+
+
+}
