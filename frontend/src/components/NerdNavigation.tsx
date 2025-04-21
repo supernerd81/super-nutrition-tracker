@@ -58,6 +58,20 @@ export default function NerdNavigation() {
                 </ListItem>
                 <ListItem
                     onClick={() => {
+                        navigate("/meal/overview")
+                        setOpen(false)
+                    }
+                    }
+                    sx={{
+                        color: "#f68247",
+                        textDecoration: "none",
+                        "&:hover": { backgroundColor: "#dbdbdb" },
+                    }}
+                >
+                    <ListItemText primary="Details anzeigen" />
+                </ListItem>
+                <ListItem
+                    onClick={() => {
                         navigate("/user/new")
                         setOpen(false)
                     }}

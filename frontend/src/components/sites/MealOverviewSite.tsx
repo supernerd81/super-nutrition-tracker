@@ -127,6 +127,7 @@ export default function MealOverviewSite(props: Readonly<Props>) {
             <DataGrid
                 rows={rows}
                 columns={columns}
+                sortingOrder={['desc', 'asc']}
                 paginationModel={{ pageSize: 5, page: 0 }}
                 disableRowSelectionOnClick
                 processRowUpdate={(updatedRow) => {
