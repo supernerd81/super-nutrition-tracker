@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -18,6 +20,29 @@ public class AuthController {
         if(oAuth2User instanceof AuthAppUser appUser) {
             int age = Birthday.getAge(appUser.getBirthday());
             String gender = "MALE";
+            if(appUser.getFirstname() == null || appUser.getFirstname().isEmpty()) {
+                appUser.setFirstname("");
+            }
+
+            if(appUser.getLastname() == null || appUser.getFirstname().isEmpty()) {
+                appUser.setLastname("Unbekannt");
+            }
+
+            if(appUser.getBirthday() == null) {
+                appUser.setBirthday(LocalDate.of(1981, 8, 11));
+            }
+
+            if(appUser.getWeight() == 0) {
+                appUser.setWeight(80);
+            }
+
+            if(appUser.getHeight() == 0) {
+                appUser.setHeight(180);
+            }
+
+            if(appUser.getAge() == 0) {
+                appUser.setAge(43);
+            }
 
             if(appUser.getGender() != null) {
                 gender = appUser.getGender().toString();
