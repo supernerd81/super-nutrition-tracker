@@ -30,7 +30,7 @@ export default function Header(props: Readonly<Props>) {
 
     const [currentNumber, setCurrentNumber] = useState(0);
 
-    const metabolicRate = ((props.appUser?.metabolicRate === undefined) ? 0 : props.appUser.metabolicRate)
+    const metabolicRate = (props.appUser?.metabolicRate ?? 0)
     useEffect(() => {
         let startTime: number;
         const duration = 2000;
