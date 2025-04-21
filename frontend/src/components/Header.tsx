@@ -58,7 +58,7 @@ export default function Header(props: Readonly<Props>) {
         <>
             <div className={"row pt-2"}>
                 <div className={"col-md-2 col-lg-1"}>
-                    <NerdNavigation />
+                    { props.appUser !== undefined ? <NerdNavigation /> : null }
                 </div>
                 <div className={"col-md-10 col-lg-6 align-content-end"}>
 
@@ -76,10 +76,10 @@ export default function Header(props: Readonly<Props>) {
         <div className={"row header-container"}>
             <div className={"col-md-12 col-lg-6 header-left text-lg-start"}>
                 <h2>Dein Profil</h2>
-                <p style={{ fontSize: "16px" }}><b>Name:</b> { (props.appUser?.firstname === undefined ? "--" : props.appUser?.firstname) + " " + (props.appUser?.lastname === undefined ? "--" : props.appUser?.lastname) }
+                <p style={{ fontSize: "16px" }}><b>Name:</b> { (props.appUser?.firstname ?? "--") + " " + (props.appUser?.lastname ?? "--") }
                 <br />
                     <b>B-Day:</b>  { props.appUser?.birthday === undefined ? "--" : formatBirtday(props.appUser?.birthday) }</p>
-                <NerdButton buttonText={"Profil bearbeiten"} styling={ButtonStyleLightFull} variant={"contained"} cssClasses="mt-3" onClick={() => { navigate("/user/new")}}/>
+                { props.appUser !== undefined ? <NerdButton buttonText={"Profil bearbeiten"} styling={ButtonStyleLightFull} variant={"contained"} cssClasses="mt-3" onClick={() => { navigate("/user/new")}}/> : null }
             </div>
             <div className={"col-md-12 col-lg-6 header-right text-lg-start"}>
                 <h2>Dein Grundumsatz pro Tag</h2>
@@ -87,9 +87,9 @@ export default function Header(props: Readonly<Props>) {
                 <p className={"font-lg mb-0"}>{ props.appUser === undefined ? "0000" : Math.floor(currentNumber) } kcal</p>
                 <p >Alter: { props.appUser === undefined ? "--" : props.appUser?.age} &bull; Gewicht: { props.appUser === undefined ? "--" : props.appUser?.weight} kg &bull; Größe: { props.appUser === undefined ? "---" : props.appUser?.height } cm</p>
 
-                <NerdButton buttonText={"Mahlzeit eingeben"} styling={ ButtonStyleOrangeFull } variant={"contained"} onClick={() => {
+                { props.appUser !== undefined ? <NerdButton buttonText={"Mahlzeit eingeben"} styling={ ButtonStyleOrangeFull } variant={"contained"} onClick={() => {
                     navigate('/meal/new')
-                }} />
+                }} /> : null }
             </div>
         </div>
      </>
