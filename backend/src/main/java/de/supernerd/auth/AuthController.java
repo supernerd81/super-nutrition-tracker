@@ -26,7 +26,7 @@ public class AuthController {
         return appUser;
     }
 
-    private void sanitizeUser(AuthAppUser user) {
+    void sanitizeUser(AuthAppUser user) {
         if (isNullOrEmpty(user.getFirstname())) user.setFirstname("");
         if (isNullOrEmpty(user.getLastname())) user.setLastname("Unbekannt");
         if (user.getBirthday() == null) user.setBirthday(LocalDate.of(1981, 8, 11));
@@ -43,7 +43,7 @@ public class AuthController {
         user.setAge(age);
     }
 
-    private String getValidGender(AuthAppUser user) {
+    String getValidGender(AuthAppUser user) {
         return user.getGender() != null ? user.getGender().toString() : "MALE";
     }
 
