@@ -147,6 +147,7 @@ export default function NewMealForm(props: Readonly<Props>) {
                 flexDirection: "column",
                 alignItems: "flex-start",
                 width: "650px",
+                maxWidth: "100%",
                 margin: "auto",
             }}
             className={"mt-5 "}
@@ -172,11 +173,13 @@ export default function NewMealForm(props: Readonly<Props>) {
                 <p style={{ fontSize: "14px", marginTop: "10px", color: "#f68247" }}><b>Hinweis:</b> Wenn Du ein Produkt mit Barcode hast, kannst Du den Barcode eingeben oder scannen. Das Produkt wird dann automatisch geladen und das Formular ausgefüllt, wenn es bereits in der Datenbank ist.</p>
             </Typography>
 
-            <div style={{ marginBottom: "20px" }}>
-                <NerdTextfield id={"barcode"} name={"barcode"} onBlur={handleBarcodeBlur} onChange={handleInputChange} type={"text"} label={"Barcode"} defaultValue={""} variant={"standard"} fieldWidth={"620px !important"} marginRight={"20px"} required={false} value={mealData.barcode}/>
-            </div><div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "20px" }} className={"col-12"}>
+                <NerdTextfield id={"barcode"} name={"barcode"} onBlur={handleBarcodeBlur} onChange={handleInputChange} type={"text"} label={"Barcode"} defaultValue={""} variant={"standard"} fieldWidth={"620px"} marginRight={"20px"} required={false} value={mealData.barcode}/>
+            </div>
+            <div style={{ marginBottom: "20px", width: "100%" }}>
 
-            <NerdTextfield id={"mealName"} name={"mealName"} type={"text"}  onChange={handleInputChange} label={"Mahlzeit- / Produktname"} defaultValue={""} variant={"standard"} fieldWidth={"300px !important"} marginRight={"20px"} required={true} value={mealData.mealName} />
+            <NerdTextfield id={"mealName"} name={"mealName"} type={"text"}  onChange={handleInputChange} label={"Mahlzeit- / Produktname"} defaultValue={""} variant={"standard"} fieldWidth={"300px"} marginRight={"20px"} required={true} value={mealData.mealName} />
+
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                     name={"dateTime"}
@@ -192,9 +195,10 @@ export default function NewMealForm(props: Readonly<Props>) {
                             variant: "standard",
                             fullWidth: true,
                             error: error,
+                            className: "nerd-textfield",
                             helperText: error ? "Bitte ein Datum und eine Uhrzeit auswählen!" : "",
                             sx: {
-                                width: "300px !important",
+                                width: "300px",
                                 marginRight: "20px",
                                 "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" },
                                 "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" },
@@ -217,9 +221,9 @@ export default function NewMealForm(props: Readonly<Props>) {
                 />
             </LocalizationProvider></div><div>
 
-            <NerdTextfield id={"protein"} name={"protein"} onChange={handleInputChange} type={"number"} label={"Protein"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} endAdorment={"g"} required={true} value={mealData.protein} />
-            <NerdTextfield id={"carbohydrates"} name={"carbohydrates"} onChange={handleInputChange} type={"number"} label={"Kohlenhydrate"} defaultValue={""} variant={"standard"} fieldWidth={"195px !important"} marginRight={"15px"} required={true} endAdorment={"g"} value={mealData.carbohydrates} />
-            <NerdTextfield id={"fat"} name={"fat"} onChange={handleInputChange} type={"number"} label={"Fett"} defaultValue={""} variant={"standard"} fieldWidth={"200px !important"} marginRight={""} required={true} endAdorment={"g"} value={mealData.fat} />
+            <NerdTextfield id={"protein"} name={"protein"} onChange={handleInputChange} type={"number"} label={"Protein"} defaultValue={""} variant={"standard"} fieldWidth={"195px"} marginRight={"15px"} endAdorment={"g"} required={true} value={mealData.protein} />
+            <NerdTextfield id={"carbohydrates"} name={"carbohydrates"} onChange={handleInputChange} type={"number"} label={"Kohlenhydrate"} defaultValue={""} variant={"standard"} fieldWidth={"195px"} marginRight={"15px"} required={true} endAdorment={"g"} value={mealData.carbohydrates} />
+            <NerdTextfield id={"fat"} name={"fat"} onChange={handleInputChange} type={"number"} label={"Fett"} defaultValue={""} variant={"standard"} fieldWidth={"200px "} marginRight={""} required={true} endAdorment={"g"} value={mealData.fat} />
 
         </div>
             <div className={"mt-4"} style={{ display: "flex", justifyContent: "flex-end", width: "100%", paddingRight: "25px" }}>

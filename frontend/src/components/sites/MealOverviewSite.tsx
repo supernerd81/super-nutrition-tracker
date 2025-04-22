@@ -13,6 +13,7 @@ import NerdTextfield from "../forms/NerdTextfield.tsx";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
+import NerdSnackbar from "../forms/NerdSnackbar.tsx";
 
 type Props = {
     appUser: AppUser | undefined | null
@@ -34,17 +35,24 @@ export default function MealOverviewSite(props: Readonly<Props>) {
     }
 
     useEffect(() => {
-        fetchDailyMealData()
+        fetchDailyMealData().then(r => console.log(r))
     }, [props.appUser]);
 
     const handleDelete = (id: string) => {
         axios.delete(`/api/meal/delete/${id}`)
             .then(r => {
-                fetchDailyMealData()
+                fetchDailyMealData().then(r => console.log(r))
                 console.log(r.data)
+
+                setSnackbarMessage("Eintrag wurde gelöscht!")
+                setSnackbarSeverity("success")
+                setOpenSnackbar(true)
             })
             .catch(e => {
                 console.error('Error deleting Meal: ', e)
+                    setSnackbarMessage("Eintrag konnte nicht gelöscht werden! Versuche es später noch einmal!")
+                    setSnackbarSeverity("success")
+                    setOpenSnackbar(true)
             }
             )
     };
@@ -52,6 +60,10 @@ export default function MealOverviewSite(props: Readonly<Props>) {
     const [editingRow, setEditingRow] = React.useState<MealOverviewData | null>(null);
     const [selectedDateTime, setSelectedDateTime] = useState<Dayjs | null>(dayjs())
     const [error, setError] = useState(false);
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success")
 
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -81,13 +93,20 @@ export default function MealOverviewSite(props: Readonly<Props>) {
 
             axios.put(`/api/meal/update/${editingRow.id}`, editingRow)
                 .then(r => {
-                    fetchDailyMealData()
+                    fetchDailyMealData().then(r => console.log(r))
 
                     setEditingRow(null);
                     console.log(r.data)
+
+                    setSnackbarMessage("Änderungen wurden gespeichert!")
+                    setSnackbarSeverity("success")
+                    setOpenSnackbar(true)
                 })
                 .catch(e => {
                     console.error('Error updating Meal: ', e)
+                        setSnackbarMessage("Fehler beim Speichern! Versuche es später noch einmal!")
+                        setSnackbarSeverity("error")
+                        setOpenSnackbar(true)
                 }
                 )
         }
@@ -124,6 +143,12 @@ export default function MealOverviewSite(props: Readonly<Props>) {
 
     return (
         <div style={{ height: 500, width: '100%' }} className={"pt-3"}>
+            <NerdSnackbar
+                openSnackbar={openSnackbar}
+                setOpenSnackbar={setOpenSnackbar}
+                snackbarMessage={snackbarMessage}
+                snackbarSeverity={snackbarSeverity}
+            />
             <DataGrid
                 rows={rows}
                 columns={columns}

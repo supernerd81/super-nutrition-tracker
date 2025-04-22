@@ -115,6 +115,7 @@ export default function UpdateProfileForm(props: Readonly<Props>) {
                 flexDirection: "column",
                 alignItems: "flex-start",
                 width: "650px",
+                maxWidth: "100%",
                 margin: "auto",
             }}
             className={"mt-5 "}
@@ -139,10 +140,10 @@ export default function UpdateProfileForm(props: Readonly<Props>) {
                 <p style={{ fontSize: "16px", marginTop: "10px" }}>Für die Berechnung des Grundumsatzes (kcal) pro Tag sind diese Angaben notwendig! Fülle deshalb das Formular vollständig aus und klicke anschließend auf speichern.</p>
         </Typography>
 
-            <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "20px", width: "100%" }}>
 
-                <NerdTextfield onChange={handleInputChange} type={"text"} name={"firstname"} id={"firstname"} label={"Vorname"} defaultValue={""} variant={"standard"} fieldWidth={"240px !important"} marginRight={"20px"} required={true} value={profileData.firstname} />
-                <NerdTextfield onChange={handleInputChange} type={"text"} name={"lastname"} id={"lastname"} label={"Nachname"} defaultValue={""} variant={"standard"} fieldWidth={"250px !important"} marginRight={"20px"} required={true} value={profileData.lastname} />
+                <NerdTextfield onChange={handleInputChange} type={"text"} name={"firstname"} id={"firstname"} label={"Vorname"} defaultValue={""} variant={"standard"} fieldWidth={"240px"} marginRight={"20px"} required={true} value={profileData.firstname} />
+                <NerdTextfield onChange={handleInputChange} type={"text"} name={"lastname"} id={"lastname"} label={"Nachname"} defaultValue={""} variant={"standard"} fieldWidth={"250px"} marginRight={"20px"} required={true} value={profileData.lastname} />
                 <NerdSelectField onChange={handleSelectChange} name={"gender"} id={"nerd-select-gender"} label={"Gender"} labelId={"nerd-select-gender-label"} fieldWidth={"100px"} variant={"standard" } value={profileData.gender} />
             </div><div>
 
@@ -153,6 +154,7 @@ export default function UpdateProfileForm(props: Readonly<Props>) {
                     value={selectedDate}
                     onChange={(newValue: Dayjs | null) => setSelectedDate(newValue)}
                     format="DD.MM.YYYY"
+                    className={"nerd-textfield"}
                     slotProps={{
                         textField: {
                             variant: "standard",
@@ -160,7 +162,8 @@ export default function UpdateProfileForm(props: Readonly<Props>) {
                             error: error,
                             helperText: error ? "Bitte ein Datum auswählen!" : "",
                             sx: {
-                                width: "300px !important",
+                                width: "300px ",
+                                marginBottom: "10px",
                                 marginRight: "20px",
                                 "& .MuiInput-underline:hover:before": { borderBottom: "1px solid #f68247" },
                                 "& .MuiInput-underline:after": { borderBottom: "2px solid #f68247" },
@@ -172,8 +175,7 @@ export default function UpdateProfileForm(props: Readonly<Props>) {
             </LocalizationProvider>
 
             <NerdTextfield onChange={handleInputChange} name={"userweight"} type={"number"} id={"userweight"} label={"Gewicht"} defaultValue={""} variant={"standard"} fieldWidth={"150px"} marginRight={"15px"} endAdorment={"kg"} required={true} value={profileData.userweight} />
-            <NerdTextfield onChange={handleInputChange} name={"userheight"} type={"number"} id={"userheight"} label={"Größe"} defaultValue={""} variant={"standard"} fieldWidth={"140px !important"} marginRight={""} endAdorment={"cm"} required={true} value={profileData.userheight} />
-
+            <NerdTextfield onChange={handleInputChange} name={"userheight"} type={"number"} id={"userheight"} label={"Größe"} defaultValue={""} variant={"standard"} fieldWidth={"140px"} marginRight={""} endAdorment={"cm"} required={true} value={profileData.userheight} />
             </div>
             <div className={"mt-4"} style={{ display: "flex", justifyContent: "flex-end", width: "100%", paddingRight: "25px" }}>
                 <Button type="submit" variant="contained" endIcon={<SaveIcon />} style={{ backgroundColor: "#f68247" }} >
