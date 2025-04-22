@@ -17,43 +17,49 @@ public class AuthController {
 
     @GetMapping("/me")
     public AuthAppUser getMe(@AuthenticationPrincipal OAuth2User oAuth2User) {
-        if(oAuth2User instanceof AuthAppUser appUser) {
-            int age = Birthday.getAge(appUser.getBirthday());
-            String gender = "MALE";
-            if(appUser.getFirstname() == null || appUser.getFirstname().isEmpty()) {
-                appUser.setFirstname("");
-            }
-
-            if(appUser.getLastname() == null || appUser.getFirstname().isEmpty()) {
-                appUser.setLastname("Unbekannt");
-            }
-
-            if(appUser.getBirthday() == null) {
-                appUser.setBirthday(LocalDate.of(1981, 8, 11));
-            }
-
-            if(appUser.getWeight() == 0) {
-                appUser.setWeight(80);
-            }
-
-            if(appUser.getHeight() == 0) {
-                appUser.setHeight(180);
-            }
-
-            if(appUser.getAge() == 0) {
-                appUser.setAge(43);
-            }
-
-            if(appUser.getGender() != null) {
-                gender = appUser.getGender().toString();
-            }
-            appUser.setGender(Gender.valueOf(gender));
-
-            appUser.setMetabolicRate(MetabolismUtils.calculateBasalMetabolicRate( age, appUser.getWeight(), appUser.getHeight(), gender ));
-            appUser.setAge(age);
-            return appUser;
-        } else {
+        if (!(oAuth2User instanceof AuthAppUser appUser)) {
             return null;
         }
+
+        sanitizeUser(appUser);
+        int age = Birthday.getAge(appUser.getBirthday());
+        String gender = appUser.getGender() != null ? appUser.getGender().toString() : "MALE";
+
+        appUser.setGender(Gender.valueOf(gender));
+        appUser.setMetabolicRate(MetabolismUtils.calculateBasalMetabolicRate(
+                age, appUser.getWeight(), appUser.getHeight(), gender));
+        appUser.setAge(age);
+
+        return appUser;
+    }
+
+    private void sanitizeUser(AuthAppUser user) {
+        if (isNullOrEmpty(user.getFirstname())) {
+            user.setFirstname("");
+        }
+
+        if (isNullOrEmpty(user.getLastname())) {
+            user.setLastname("Unbekannt");
+        }
+
+        if (user.getBirthday() == null) {
+            user.setBirthday(LocalDate.of(1981, 8, 11));
+        }
+
+        if (user.getWeight() == 0) {
+            user.setWeight(80);
+        }
+
+        if (user.getHeight() == 0) {
+            user.setHeight(180);
+        }
+
+        if (user.getAge() == 0) {
+            user.setAge(43);
+        }
+    }
+
+    private boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
     }
 }
