@@ -23,7 +23,7 @@ public class AuthController {
 
         sanitizeUser(appUser);
         int age = Birthday.getAge(appUser.getBirthday());
-        String gender = appUser.getGender() != null ? appUser.getGender().toString() : "MALE";
+        String gender = getValidGender(appUser);
 
         appUser.setGender(Gender.valueOf(gender));
         appUser.setMetabolicRate(MetabolismUtils.calculateBasalMetabolicRate(
@@ -34,29 +34,16 @@ public class AuthController {
     }
 
     private void sanitizeUser(AuthAppUser user) {
-        if (isNullOrEmpty(user.getFirstname())) {
-            user.setFirstname("");
-        }
+        if (isNullOrEmpty(user.getFirstname())) user.setFirstname("");
+        if (isNullOrEmpty(user.getLastname())) user.setLastname("Unbekannt");
+        if (user.getBirthday() == null) user.setBirthday(LocalDate.of(1981, 8, 11));
+        if (user.getWeight() == 0) user.setWeight(80);
+        if (user.getHeight() == 0) user.setHeight(180);
+        if (user.getAge() == 0) user.setAge(43);
+    }
 
-        if (isNullOrEmpty(user.getLastname())) {
-            user.setLastname("Unbekannt");
-        }
-
-        if (user.getBirthday() == null) {
-            user.setBirthday(LocalDate.of(1981, 8, 11));
-        }
-
-        if (user.getWeight() == 0) {
-            user.setWeight(80);
-        }
-
-        if (user.getHeight() == 0) {
-            user.setHeight(180);
-        }
-
-        if (user.getAge() == 0) {
-            user.setAge(43);
-        }
+    private String getValidGender(AuthAppUser user) {
+        return user.getGender() != null ? user.getGender().toString() : "MALE";
     }
 
     private boolean isNullOrEmpty(String str) {
