@@ -22,14 +22,7 @@ public class AuthController {
         }
 
         sanitizeUser(appUser);
-        int age = Birthday.getAge(appUser.getBirthday());
-        String gender = getValidGender(appUser);
-
-        appUser.setGender(Gender.valueOf(gender));
-        appUser.setMetabolicRate(MetabolismUtils.calculateBasalMetabolicRate(
-                age, appUser.getWeight(), appUser.getHeight(), gender));
-        appUser.setAge(age);
-
+        setMetabolicData(appUser);
         return appUser;
     }
 
@@ -40,6 +33,14 @@ public class AuthController {
         if (user.getWeight() == 0) user.setWeight(80);
         if (user.getHeight() == 0) user.setHeight(180);
         if (user.getAge() == 0) user.setAge(43);
+    }
+
+    private void setMetabolicData(AuthAppUser user) {
+        int age = Birthday.getAge(user.getBirthday());
+        String gender = getValidGender(user);
+        user.setGender(Gender.valueOf(gender));
+        user.setMetabolicRate(MetabolismUtils.calculateBasalMetabolicRate(age, user.getWeight(), user.getHeight(), gender));
+        user.setAge(age);
     }
 
     private String getValidGender(AuthAppUser user) {
