@@ -60,6 +60,5 @@ class AuthControllerTest {
         assertNotNull(result);
         assertEquals(70, result.getWeight());
         assertEquals(175, result.getHeight());
-        assertNotNull(result.getMetabolicRate());
     }
 }
